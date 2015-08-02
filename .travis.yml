@@ -9,6 +9,10 @@ android:
         #used SDK version
         - android-21
 
+        #devices
+        #android lollipop
+        - sys-img-armeabi-v7a-android-21
+
 #integrations
 notifications:
   slack: cassetteapp:eeHgRugjn80toSy8b7p9SL6B
