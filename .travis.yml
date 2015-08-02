@@ -3,11 +3,14 @@ language: android
 
 android:
     components:
-        - platforms-tools
+        - platform-tools
         - tools
 
         #used SDK version
         - android-21
+
+        #build tools version
+        - build-tools-21.1.2
 
         #devices
         #android lollipop
