@@ -1,2 +1,14 @@
+#language
+language: android
+
+android:
+    components:
+        - platforms-tools
+        - tools
+
+        #used SDK version
+        - android-21
+
+#integrations
 notifications:
   slack: cassetteapp:eeHgRugjn80toSy8b7p9SL6B
