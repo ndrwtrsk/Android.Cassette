@@ -225,7 +225,7 @@ public class RecordingActivity extends Activity {
             public void onClick(View v) {
                 onRecord(mStartRecording);
             }
-        }
+        };
 
         public RecordButton(Context context) {
             super(context);
