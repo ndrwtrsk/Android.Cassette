@@ -1,0 +1,28 @@
+<resources>
+    <!-- Primary hues -->
+    <color name="primary_light">#ef9a9a</color>
+    <color name="primary">#f44336</color>
+    <color name="primary_dark">#b71c1c</color>
+
+    <!-- Accent hues -->
+    <color name="accent_light">#a5d6a7</color>
+    <color name="accent">#66bb6a</color>
+    <color name="accent_dark">#43a047</color>
+
+    <!-- Black text hues -->
+    <color name="black_text">#dd000000</color>
+    <color name="black_secondary_text">#89000000</color>
+    <color name="black_disable_hint_text">#42000000</color>
+    <color name="black_dividers">#23000000</color>
+
+    <!-- White text hues -->
+    <color name="white_text">#FFF</color>
+    <color name="white_secondary_text">#b2ffffff</color>
+    <color name="white_disable_hint_text">#4cffffff</color>
+    <color name="white_dividers">#1fffffff</color>
+
+
+    <!-- Backgrounds -->
+    <color name="white">#FFF</color>
+
+</resources>
