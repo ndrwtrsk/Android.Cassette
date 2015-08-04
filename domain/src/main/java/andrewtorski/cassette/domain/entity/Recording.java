@@ -24,7 +24,6 @@ public class Recording {
     /** Date and Time of the Recording. */
     private Date dateTimeOfRecording;
 
-
     /** Length of the recording.
      *  Expressed in milliseconds. */
     private int lengthInMiliseconds;

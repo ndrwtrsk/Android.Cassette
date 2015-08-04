@@ -14,13 +14,13 @@ public class Cassette {
 
     //region Private Fields
 
-    /** Unique Idenfitier of the Cassete. */
+    /** Unique Identifier of the Cassete. */
     private int id;
 
-    /** Title of this Cassete. */
+    /** Title of this Cassette. */
     private String title;
 
-    /** Descirption of this Cassete.
+    /** Description of this Cassette.
      *  Not required. */
     private String description;
 
