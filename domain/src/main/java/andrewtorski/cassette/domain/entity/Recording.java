@@ -10,41 +10,61 @@ public class Recording {
 
     //region Private Fields
 
-    /** Unique identifier of the Recording. */
-    private int id;
+    /**
+     * Unique identifier of the Recording.
+     */
+    private long id;
 
-    /** Title of this Recording.
-     *  Not required. */
+    /**
+     * Title of this Recording.
+     * Not required.
+     */
     private String title;
 
-    /** Description of the Recording.
-     *  Not required. */
+    /**
+     * Description of the Recording.
+     * Not required.
+     */
     private String descripition;
 
-    /** Date and Time of the Recording. */
+    /**
+     * Date and Time of the Recording.
+     */
     private Date dateTimeOfRecording;
 
-    /** Length of the recording.
-     *  Expressed in milliseconds. */
+    /**
+     * Length of the recording.
+     * Expressed in milliseconds.
+     */
     private int lengthInMiliseconds;
 
-    /** Path to the audio file with the capture. */
+    /**
+     * Path to the audio file with the capture.
+     */
     private String audioFilePath;
 
-    /** Reference to the actual File with the audio capture. */
+    /**
+     * Reference to the actual File with the audio capture.
+     */
     private File audioFile;
 
-    /** Sequence of this Recording in the Cassette.
-     *  Cassette is compromised of many recordings. First recording will
-     *  have number 0, second 1... etc */
+    /**
+     * Sequence of this Recording in the Cassette.
+     * Cassette is compromised of many recordings. First recording will
+     * have number 0, second 1... etc
+     */
     private int sequenceInTheCassette;
 
     //region Navigation Fields
 
-    /** Identifier of the Cassette to which this Recording belongs. */
-    private int cassetteId;
+    /**
+     * Identifier of the Cassette to which this Recording belongs.
+     */
+    private long cassetteId;
 
-    /** Cassette to which this Recording belongs. */
+    /**
+     * Cassette to which this Recording belongs.
+     */
     private Cassette cassette;
 
     //endregion Navigation Fields
@@ -53,13 +73,15 @@ public class Recording {
 
     //region Constructors
 
-    public Recording(){
+    public Recording() {
         id = -1;
     }
 
-    /** Constructor which only should be used when Mapping from DAL RecordingEntity
-     *  to Domain Recording. */
-    public Recording(int id, String title,
+    /**
+     * Constructor which only should be used when Mapping from DAL RecordingEntity
+     * to Domain Recording.
+     */
+    public Recording(long id, String title,
                      String descripition, Date dateTimeOfRecording,
                      int lengthInMiliseconds, String audioFilePath,
                      int sequenceInTheCassette, Cassette cassette) {
@@ -74,9 +96,11 @@ public class Recording {
         this.cassetteId = cassette.getId();
     }
 
-    /** Constructor which only should be used when Mapping from Presentation RecordingModel to
-     *  Domain Recording. */
-    public Recording(File audioFile, int lengthInMiliseconds, Cassette cassette){
+    /**
+     * Constructor which only should be used when Mapping from Presentation RecordingModel to
+     * Domain Recording.
+     */
+    public Recording(File audioFile, int lengthInMiliseconds, Cassette cassette) {
         this.audioFile = audioFile;
         this.audioFilePath = this.audioFile.getPath();
         this.lengthInMiliseconds = lengthInMiliseconds;
@@ -89,7 +113,7 @@ public class Recording {
 
     //region Getters
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
@@ -121,7 +145,7 @@ public class Recording {
         return sequenceInTheCassette;
     }
 
-    public int getCassetteId() {
+    public long getCassetteId() {
         return cassetteId;
     }
 

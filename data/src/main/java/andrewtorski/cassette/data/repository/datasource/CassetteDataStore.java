@@ -1,5 +1,7 @@
 package andrewtorski.cassette.data.repository.datasource;
 
+import java.util.Date;
+
 import andrewtorski.cassette.data.entity.CassetteEntity;
 
 /**
@@ -8,8 +10,9 @@ import andrewtorski.cassette.data.entity.CassetteEntity;
 public interface CassetteDataStore {
     /** Creates a Cassette using title and description.
      * @param title Title of the Cassette.
-     * @param description Description of the Cassette. */
-    CassetteEntity createCassette(String title, String description);
+     * @param description Description of the Cassette.
+     * @param dateTimeOfCreation  Date and time of Cassette creation. */
+    CassetteEntity createCassette(String title, String description, Date dateTimeOfCreation);
 
     /** Retrieves a Cassette using the provided id.
      * @param cassetteId Id of the Cassette.

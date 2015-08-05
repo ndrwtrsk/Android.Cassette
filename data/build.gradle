@@ -19,6 +19,7 @@ android {
 }
 
 repositories {
+    jcenter()
     mavenCentral()
     maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
 }
@@ -26,4 +27,13 @@ repositories {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.michaelpardo:activeandroid:3.1.0-SNAPSHOT'
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.mockito:mockito-core:1.9.5'
+    testCompile "org.robolectric:robolectric:3.0"
+    testCompile 'org.powermock:powermock:1.6.2'
+    testCompile 'org.powermock:powermock-api-easymock:1.6.2'
+    testCompile 'org.powermock:powermock-module-junit4:1.6.2'
+    testCompile 'org.mockito:mockito-all:2.0.2-beta'
+    testCompile 'org.powermock:powermock-api-mockito:1.6.2'
+    compile project(":domain")
 }
