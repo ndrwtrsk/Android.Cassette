@@ -1,7 +1,6 @@
 package andrewtorski.cassette.data.entity;
 
 import com.activeandroid.Model;
-import com.activeandroid.annotation.Column;
 
 import java.util.Date;
 
@@ -15,7 +14,7 @@ public class CassetteEntity extends Model{
     /**
      * Unique identifier of the  Cassette
      */
-    private int id;
+    public int id;
 
     /** Title of this Cassette.
      *  Not required. */
@@ -32,7 +31,6 @@ public class CassetteEntity extends Model{
      * Total time length of the Cassette.
      * Express in milliseconds.
      */
-    @Column(name = "length")
     public int length;
 
     /** Number of the Recordings on this Cassette. */
