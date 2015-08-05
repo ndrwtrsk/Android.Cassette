@@ -105,15 +105,40 @@ public class CassetteDataDbAdapter {
         return cursor;
     }
 
-    /*
-        TODO: Update cassette method.
+    /**
+     *  Updates Cassette row of specified id with provided data.
+     *
+     * @param id Identifier of the Cassette row.
+     * @param title New title of the Cassette.
+     * @param description New description of the Cassette.
+     * @param length new length in milliseconds of all Recordings contained on updated Cassette.
+     * @param numberOfRecordings New count of Recordings contained on update Cassette.
+     * @param isCompiled Was this Cassette compiled.
+     * @param compiledFilePath New compiled file path for updated Cassette.
+     * @param dateTimeOfCompilation New date and time of compilation of updated Cassette.
+     * @return Was anything updated.
      */
-    public boolean updateCassette() {
-        return false;
+    public boolean updateCassette(long id, String title, String description, int length, int numberOfRecordings,
+                                  int isCompiled, String compiledFilePath, long dateTimeOfCompilation) {
+
+        ContentValues values = new ContentValues();
+
+        values.put(CassetteDbContract.CassetteTable.COLUMN_NAME_TITLE, title);
+        values.put(CassetteDbContract.CassetteTable.COLUMN_NAME_DESCRIPTION, description);
+        values.put(CassetteDbContract.CassetteTable.COLUMN_NAME_LENGTH, length);
+        values.put(CassetteDbContract.CassetteTable.COLUMN_NAME_NUMBER_OF_RECORDINGS, numberOfRecordings);
+        values.put(CassetteDbContract.CassetteTable.COLUMN_NAME_IS_COMPILED, isCompiled);
+        values.put(CassetteDbContract.CassetteTable.COLUMN_NAME_COMPILED_FILE_PATH, compiledFilePath);
+        values.put(CassetteDbContract.CassetteTable.COLUMN_NAME_DATE_TIME_OF_COMPILATION, dateTimeOfCompilation);
+
+        int rowsAffected = this.db.update(CassetteDbContract.CassetteTable.TABLE_NAME, values,
+                CassetteDbContract.CassetteTable.COLUMN_NAME_ID + "=" + id, null);
+
+        return rowsAffected > 0;
     }
 
     /**
-     * Deletes a Cassette ow of specified identifier.
+     * Deletes a Cassette row of specified identifier.
      *
      * @param id Identifier of the Cassette row.
      * @return Was any row deleted.
