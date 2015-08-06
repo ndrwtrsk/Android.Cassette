@@ -27,6 +27,11 @@ public class DbCasseteDataStore implements CassetteDataStore {
 
         long id = cassetteDataDbAdapter.createCassette(title, description, dateTimeOfCreation);
 
+        //TODO: what to do when -1 is returned from createCassette?
+        //  1)  return null
+        //  2)  return cassetteEntity with id as -1
+        //      and then perform some additional actions in either domain layer or presentation?
+
         cassetteEntity.id = id;
 
         return cassetteEntity;
@@ -34,7 +39,7 @@ public class DbCasseteDataStore implements CassetteDataStore {
 
     @Override
     public CassetteEntity getCassetteEntityDetails(long cassetteId) {
-        Cursor cursor = cassetteDataDbAdapter.getById(cassetteId);
+        Cursor cursor = cassetteDataDbAdapter.getCassetteById(cassetteId);
 
         if (cursor == null) {
             return null;
@@ -51,20 +56,20 @@ public class DbCasseteDataStore implements CassetteDataStore {
      * @return Linked list of CassetteEntities.
      */
     @Override
-    public List<CassetteEntity> getAll() {
+    public List<CassetteEntity> getAllCassettes() {
         //  LinkedList is used here, because indexing operation is completely out of our interests
         //  right now. ArrayList would prove to be slower here, as it has to be extended as it's
         //  capacity changes.
         LinkedList<CassetteEntity> cassetteEntityLinkedList = new LinkedList<>();
 
-        Cursor cursor = cassetteDataDbAdapter.getAll();
+        Cursor cursor = cassetteDataDbAdapter.getAllCassettes();
 
         if (cursor == null) {
             return cassetteEntityLinkedList;
         }
 
         CassetteEntity cassetteEntity;
-        for (cursor.moveToFirst(); cursor.isAfterLast(); cursor.moveToNext()) {
+        for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
             cassetteEntity = CassetteEntity.createCassetteEntityFromCursor(cursor);
             cassetteEntityLinkedList.add(cassetteEntity);
         }
@@ -73,7 +78,27 @@ public class DbCasseteDataStore implements CassetteDataStore {
     }
 
     @Override
-    public boolean update(CassetteEntity cassetteEntity) {
+    public List<CassetteEntity> getAllCassettesBetweenDatesDescending(long fromDate, long toDate) {
+
+        List<CassetteEntity> cassetteEntityList = new LinkedList<>();
+
+        Cursor cursor = cassetteDataDbAdapter.getAllCassettesCreatedBetweenDatesDescending(fromDate, toDate);
+
+        if (cursor == null) {
+            return cassetteEntityList;
+        }
+
+        CassetteEntity cassetteEntity;
+        while (cursor.moveToNext()) {
+            cassetteEntity = CassetteEntity.createCassetteEntityFromCursor(cursor);
+            cassetteEntityList.add(cassetteEntity);
+        }
+
+        return cassetteEntityList;
+    }
+
+    @Override
+    public boolean updateCassette(CassetteEntity cassetteEntity) {
         if (cassetteEntity == null) {
             return false;
         }
@@ -86,15 +111,15 @@ public class DbCasseteDataStore implements CassetteDataStore {
     }
 
     @Override
-    public boolean delete(CassetteEntity cassetteEntity) {
+    public boolean deleteCassette(CassetteEntity cassetteEntity) {
         if (cassetteEntity == null) {
             return false;
         }
-        return delete(cassetteEntity.id);
+        return deleteCassette(cassetteEntity.id);
     }
 
     @Override
-    public boolean delete(long id) {
+    public boolean deleteCassette(long id) {
         boolean wasSuccess = cassetteDataDbAdapter.deleteCassette(id);
         return wasSuccess;
     }

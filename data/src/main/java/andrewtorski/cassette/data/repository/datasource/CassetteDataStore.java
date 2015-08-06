@@ -5,7 +5,7 @@ import java.util.List;
 import andrewtorski.cassette.data.entity.CassetteEntity;
 
 /**
- * Contract for a data store which allows for data operation surrounding.
+ * Contract for a data store which allows for data operation surrounding Cassettes.
  */
 public interface CassetteDataStore {
     /**
@@ -26,7 +26,17 @@ public interface CassetteDataStore {
      *
      * @return List of CassetteEntities.
      */
-    List<CassetteEntity> getAll();
+    List<CassetteEntity> getAllCassettes();
+
+    /**
+     * Returns all CassetteEntities which were created between provided date span.
+     * List is sorted descendingly.
+     * Date span is expressed as two UNIX time values.
+     * @param fromDate  UNIX time representing from-date.
+     * @param ToDate    UNIX time representing to-date.
+     * @return List of CassetteEntities.
+     */
+    List<CassetteEntity> getAllCassettesBetweenDatesDescending(long fromDate, long ToDate);
 
     /**
      * Updates existing cassette of cassetteEntity's id with cassetteEntity data.
@@ -34,7 +44,7 @@ public interface CassetteDataStore {
      * @param cassetteEntity CassetteEntity to be updated.
      * @return Was this operation successful.
      */
-    boolean update(CassetteEntity cassetteEntity);
+    boolean updateCassette(CassetteEntity cassetteEntity);
 
     /**
      * Deletes provided CassetteEntity.
@@ -42,7 +52,7 @@ public interface CassetteDataStore {
      * @param cassetteEntity CassetteEntity to be deleted.
      * @return Was this operation successful.
      */
-    boolean delete(CassetteEntity cassetteEntity);
+    boolean deleteCassette(CassetteEntity cassetteEntity);
 
     /**
      * Deletes provided CassetteEntity of provided identifier.
@@ -50,5 +60,5 @@ public interface CassetteDataStore {
      * @param id Identifier of CassetteEntity to be deleted.
      * @return Was this operation successful.
      */
-    boolean delete(long id);
+    boolean deleteCassette(long id);
 }

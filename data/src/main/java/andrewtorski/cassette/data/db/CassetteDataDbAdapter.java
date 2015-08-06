@@ -105,8 +105,17 @@ public class CassetteDataDbAdapter {
      *
      * @return Cursor containing all Cassette rows.
      */
-    public Cursor getAll() {
+    public Cursor getAllCassettes() {
         return db.query(CassetteDbContract.CassetteTable.TABLE_NAME, null, null, null, null, null, null);
+    }
+
+    public Cursor getAllCassettesCreatedBetweenDatesDescending(long fromDate, long toDate) {
+        String betweenSelectClause = CassetteDbContract.CassetteTable.COLUMN_NAME_DATE_TIME_OF_CREATION
+                + " BETWEEN " + fromDate + " AND " + toDate;
+        String orderBy = "DESCENDING";
+
+        return db.query(true, CassetteDbContract.CassetteTable.TABLE_NAME, null, betweenSelectClause,
+                null, null, null, orderBy, null);
     }
 
     /**
@@ -116,7 +125,7 @@ public class CassetteDataDbAdapter {
      * @param id Identifier of the Cassette row.
      * @return Cursor positioned on the first Cassette row. Null, if nothing was found.
      */
-    public Cursor getById(long id) {
+    public Cursor getCassetteById(long id) {
         Cursor cursor = this.db.query(true, CassetteDbContract.CassetteTable.TABLE_NAME, null,
                 CassetteDbContract.CassetteTable.COLUMN_NAME_ID + "=" + id, null, null, null, null, null);
 
@@ -136,7 +145,7 @@ public class CassetteDataDbAdapter {
      * @param title New title of the Cassette.
      * @param description New description of the Cassette.
      * @param length new length in milliseconds of all Recordings contained on updated Cassette.
-     * @param numberOfRecordings New count of Recordings contained on update Cassette.
+     * @param numberOfRecordings New count of Recordings contained on updateCassette Cassette.
      * @param isCompiled Was this Cassette compiled.
      * @param compiledFilePath New compiled file path for updated Cassette.
      * @param dateTimeOfCompilation New date and time of compilation of updated Cassette.

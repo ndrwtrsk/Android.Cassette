@@ -83,6 +83,4 @@ public class RecordingEntity extends Model {
     }
 
     //endregion Constructors
-
-
 }

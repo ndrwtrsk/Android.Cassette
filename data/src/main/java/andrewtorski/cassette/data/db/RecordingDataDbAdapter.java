@@ -2,6 +2,7 @@ package andrewtorski.cassette.data.db;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -89,7 +90,8 @@ public class RecordingDataDbAdapter {
      * @param dateTimeOfRecording   UNIX time of date and time of recording.
      * @param audioFilePath         Path to the actual audio file.
      * @param length                Length(in milliseconds) of the recording.
-     * @return
+     *
+     * @return Id of the newly created recording, -1 if insertion didn't succeed.
      */
     public long createRecording(long cassetteId, int sequenceInTheCassette,
                                 long dateTimeOfRecording, String audioFilePath,
@@ -104,6 +106,53 @@ public class RecordingDataDbAdapter {
         return this.db.insert(CassetteDbContract.RecordingTable.TABLE_NAME, null, values);
     }
 
+    /**
+     * Returns a cursor positioned on the Recording of specified id.
+     *
+     * @param id Identifier of the Recording to retrieve.
+     * @return Cursor positioned on the Recording, or null if no Recording of specified id was found.
+     */
+    public Cursor getRecordingById(long id) {
+        String selection = CassetteDbContract.RecordingTable.COLUMN_NAME_ID + "=" + id;
+        Cursor cursor = this.db.query(true, CassetteDbContract.RecordingTable.TABLE_NAME, null, selection, null,
+                null, null, null, null);
+
+        if (cursor != null) {
+            cursor.moveToFirst();
+        }
+
+        return cursor;
+    }
+
+    /**
+     * Returns a cursor containing all rows in Recording table.
+     */
+    public Cursor getAllRecordings() {
+        return this.db.query(CassetteDbContract.RecordingTable.TABLE_NAME, null, null, null, null,
+                null, null);
+    }
+
+    /**
+     * Returns a cursor containing Recordings which belong to the Cassette of the specified id.
+     *
+     * @param cassetteId Identifier of the Cassette for which are looking for connected Recordings.
+     * @return Cursor containing Recordings.
+     */
+    public Cursor getAllRecordingsWhichBelongToCassette(long cassetteId) {
+        String selection = CassetteDbContract.RecordingTable.COLUMN_NAME_CASSETTE_ID + "=" + cassetteId;
+
+        return this.db.query(CassetteDbContract.RecordingTable.TABLE_NAME, null, selection, null, null,
+                null, null);
+    }
+
+    /**
+     * Updates Recording of specified if with provided title and description.
+     *
+     * @param id          Identifier of the Recording to updateCassette.
+     * @param title       New title.
+     * @param description New description.
+     * @return Was updateCassette successful.
+     */
     public boolean updateRecording(long id, String title, String description) {
         ContentValues values = new ContentValues();
 
@@ -118,6 +167,11 @@ public class RecordingDataDbAdapter {
         return rowsAffected > 0;
     }
 
+    /**
+     * Deletes Recording of specified id.
+     * @param id Identifier of the Recording to deleteCassette.
+     * @return Was deletion successful.
+     */
     public boolean deleteRecording(long id) {
         String whereClause = CassetteDbContract.RecordingTable.COLUMN_NAME_ID + "=" + id;
 

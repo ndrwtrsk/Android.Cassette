@@ -11,12 +11,10 @@ import andrewtorski.cassette.domain.repository.CassetteRepository;
 
 /**
  * Implementation of the @{andrewtorski.cassette.domain.repository.CassetteRepository} .
- *
+ * <p/>
  * For now this implementation uses Database to persist and retrieve data(@{DbCassetteDataStore},
  * but it should pose absolutely no problem of creating a CassetteDataStoreFactory which would
  * provide with access to, say: RestApiCassetteDataStore or perhaps JsonFileCassetteDataStore.
- *
- *
  */
 public class CassetteDataRepository implements CassetteRepository {
 
@@ -59,7 +57,7 @@ public class CassetteDataRepository implements CassetteRepository {
     @Override
     public List<Cassette> getAll() {
         //  linked list
-        List<CassetteEntity> cassetteEntityList = cassetteDataStore.getAll();
+        List<CassetteEntity> cassetteEntityList = cassetteDataStore.getAllCassettes();
 
 
         ArrayList<Cassette> cassetteList = new ArrayList<>(mapper.transform(cassetteEntityList));
@@ -73,7 +71,7 @@ public class CassetteDataRepository implements CassetteRepository {
     public boolean update(Cassette cassette) {
         CassetteEntity cassetteEntity = mapper.transform(cassette);
 
-        boolean wasSuccess = cassetteDataStore.update(cassetteEntity);
+        boolean wasSuccess = cassetteDataStore.updateCassette(cassetteEntity);
 
         return wasSuccess;
     }
@@ -89,7 +87,7 @@ public class CassetteDataRepository implements CassetteRepository {
 
     @Override
     public boolean delete(long id) {
-        boolean wasSuccess = cassetteDataStore.delete(id);
+        boolean wasSuccess = cassetteDataStore.deleteCassette(id);
 
         return wasSuccess;
     }
