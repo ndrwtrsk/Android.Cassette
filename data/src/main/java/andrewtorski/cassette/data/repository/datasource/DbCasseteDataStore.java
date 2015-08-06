@@ -74,6 +74,9 @@ public class DbCasseteDataStore implements CassetteDataStore {
 
     @Override
     public boolean update(CassetteEntity cassetteEntity) {
+        if (cassetteEntity == null) {
+            return false;
+        }
 
         boolean wasSuccess = cassetteDataDbAdapter.updateCassette(cassetteEntity.id, cassetteEntity.title,
                 cassetteEntity.descripition, cassetteEntity.length, cassetteEntity.numberOfRecordings,
@@ -84,6 +87,9 @@ public class DbCasseteDataStore implements CassetteDataStore {
 
     @Override
     public boolean delete(CassetteEntity cassetteEntity) {
+        if (cassetteEntity == null) {
+            return false;
+        }
         return delete(cassetteEntity.id);
     }
 

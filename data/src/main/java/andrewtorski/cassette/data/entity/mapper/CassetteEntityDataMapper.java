@@ -39,7 +39,7 @@ public class CassetteEntityDataMapper {
         Date dateTimeOfCompilation = new Date(cassetteEntity.dateTimeOfCompilation);
         boolean isCompiled = cassetteEntity.isCompiled == 1;
 
-        cassette = new Cassette(cassetteEntity.getId(), cassetteEntity.title,
+        cassette = new Cassette(cassetteEntity.id, cassetteEntity.title,
                 cassetteEntity.descripition, dateTimeOfCreation, cassetteEntity.length, isCompiled,
                 cassetteEntity.compiledFilePath, dateTimeOfCompilation,
                 cassetteEntity.numberOfRecordings, null);
@@ -49,6 +49,22 @@ public class CassetteEntityDataMapper {
             This should be done in either CassetteRepository or DataStore  */
 
         return cassette;
+    }
+
+    public CassetteEntity transform(Cassette cassette) {
+        if (cassette == null) {
+            return null;
+        }
+
+        long dateTimeOfCreation = cassette.getDateTimeOfCreation().getTime();
+        long dateTimeOfCompilation = cassette.getDateTimeOfCompilation().getTime();
+        int isCompiled = cassette.isCompiled() ? 1 : 0;
+
+        CassetteEntity cassetteEntity = new CassetteEntity(cassette.getId(), cassette.getTitle(),
+                cassette.getDescription(), dateTimeOfCreation, cassette.getLengthInMilliseconds(),
+                cassette.getNumberOfRecordings(), isCompiled, cassette.getCompiledFilePath(), dateTimeOfCompilation);
+
+        return cassetteEntity;
     }
 
     /**
