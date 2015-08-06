@@ -130,6 +130,9 @@ public class CassetteDataDbAdapter {
     /**
      *  Updates Cassette row of specified id with provided data.
      *
+     *  CassetteEntity's dateTimeOfCreation is not specified in the method's argument as it is not
+     *  expected for the date of creation to change once CassetteEntity was created.
+     *
      * @param id Identifier of the Cassette row.
      * @param title New title of the Cassette.
      * @param description New description of the Cassette.
