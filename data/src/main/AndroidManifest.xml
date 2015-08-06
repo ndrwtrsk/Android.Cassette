@@ -1,16 +1,3 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="andrewtorski.data">
-
-    <application
-        android:allowBackup="true"
-        android:name="com.activeandroid.app.Application" >
-
-        <meta-data
-            android:name="AA_DB_NAME"
-            android:value="CassetteApp.db" />
-        <meta-data
-            android:name="AA_DB_VERSION"
-            android:value="1" />
-        <!-- TODO add metadata about entity classes-->
-    </application>
+<manifest package="andrewtorski.data">
 
 </manifest>

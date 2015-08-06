@@ -7,15 +7,29 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import andrewtorski.cassette.data.db.schema.CassetteDbContract;
+import andrewtorski.global.GlobalValues;
 
 /**
  * Gives access to CRUD operations on Cassette table.
+ * Uses Singleton pattern to ensure that only one instance of this class exists during the runtime.
  */
 public class CassetteDataDbAdapter {
+
+
+    //region Private Static Fields
+
     private DatabaseHelper dbHelper;
     private SQLiteDatabase db;
-
     private Context context;
+
+    /**
+     * Singleton instance.
+     */
+    private static CassetteDataDbAdapter instance;
+
+    //endregion Private Static Fields
+
+    //region Private Class DatabaseHelper definition.
 
     /**
      * Gives access to the database.
@@ -35,13 +49,21 @@ public class CassetteDataDbAdapter {
         }
     }
 
+    //endregion Private Class DatabaseHelper definition.
+
+    //region Constructor
+
     /**
      * Intializes a new instance of the CassetteDataDbAdapter class.
      * THIS DOES NOT OPEN THE CONNECTION!
      */
-    public CassetteDataDbAdapter(Context context) {
+    private CassetteDataDbAdapter(Context context) {
         this.context = context;
     }
+
+    //endregion Constructor
+
+    //region Methods
 
     /**
      * Opens the connection to the database.
@@ -149,4 +171,21 @@ public class CassetteDataDbAdapter {
                 null);
         return recordsDeleted > 0;
     }
+
+    //endregion Methods
+
+    //region Static Methods
+
+
+    /**
+     * Retrieves singleton instance of the CassetteDataDbAdapter.
+     *
+     * @return Singleton instance of the CassetteDataDbAdapter.
+     */
+    public static synchronized CassetteDataDbAdapter getInstance() {
+        return instance == null ? new CassetteDataDbAdapter(GlobalValues.getContext()) : instance;
+    }
+
+    //endregion Static Methods
+
 }

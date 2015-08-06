@@ -36,4 +36,5 @@ dependencies {
     testCompile 'org.mockito:mockito-all:2.0.2-beta'
     testCompile 'org.powermock:powermock-api-mockito:1.6.2'
     compile project(":domain")
+    compile project(":global")
 }
