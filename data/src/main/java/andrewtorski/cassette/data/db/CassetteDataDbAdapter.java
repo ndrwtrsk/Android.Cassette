@@ -16,7 +16,7 @@ import andrewtorski.global.GlobalValues;
 public class CassetteDataDbAdapter {
 
 
-    //region Private Static Fields
+    //region Private Fields
 
     private DatabaseHelper dbHelper;
     private SQLiteDatabase db;
@@ -26,7 +26,6 @@ public class CassetteDataDbAdapter {
      * Singleton instance.
      */
     private static CassetteDataDbAdapter instance;
-
     //endregion Private Static Fields
 
     //region Private Class DatabaseHelper definition.
@@ -80,7 +79,7 @@ public class CassetteDataDbAdapter {
      * Closes the connection to the database.
      */
     public void close() {
-        db.close();
+        this.db.close();
     }
 
     /**

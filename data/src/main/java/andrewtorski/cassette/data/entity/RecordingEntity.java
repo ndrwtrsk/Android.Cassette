@@ -2,6 +2,8 @@ package andrewtorski.cassette.data.entity;
 
 import com.activeandroid.Model;
 
+import java.util.Date;
+
 /**
  * Database entity for Recording.
  */
@@ -12,12 +14,12 @@ public class RecordingEntity extends Model {
     /**
      * Unique identifier of the Recording.
      */
-    public int id;
+    public long id;
 
     /**
      * Id of the cassette to which this
      */
-    public int cassetteId;
+    public long cassetteId;
 
     /**
      * Title of this Recording.
@@ -29,12 +31,12 @@ public class RecordingEntity extends Model {
      * Description of the Recording.
      * Not required.
      */
-    public String descripition;
+    public String description;
 
     /**
-     * String representation of date and time of the Recording.
+     * UNIX time representation of date and time of the Recording.
      */
-    public String dateTimeOfRecording;
+    public long dateTimeOfRecording;
 
     /**
      * Length of the recording.
@@ -55,4 +57,32 @@ public class RecordingEntity extends Model {
     public int sequenceInTheCassette;
 
     //endregion Public Fields
+
+    //region Constructors
+
+    public RecordingEntity(long id, int cassetteId, String title, String description,
+                           long dateTimeOfRecording, int length, String audioFilePath,
+                           int sequenceInTheCassette) {
+        this.id = id;
+        this.cassetteId = cassetteId;
+        this.title = title;
+        this.description = description;
+        this.dateTimeOfRecording = dateTimeOfRecording;
+        this.length = length;
+        this.audioFilePath = audioFilePath;
+        this.sequenceInTheCassette = sequenceInTheCassette;
+    }
+
+    public RecordingEntity(long cassetteId, int sequenceInTheCassette, Date dateTimeOfRecording,
+                           String audioFilePath, int length) {
+        this.cassetteId = cassetteId;
+        this.sequenceInTheCassette = sequenceInTheCassette;
+        this.audioFilePath = audioFilePath;
+        this.length = length;
+        this.dateTimeOfRecording = dateTimeOfRecording.getTime();
+    }
+
+    //endregion Constructors
+
+
 }

@@ -11,7 +11,7 @@ import andrewtorski.cassette.data.db.schema.CassetteDbContract;
 /**
  * Database entity for the Cassette.
  */
-public class CassetteEntity extends Model{
+public class CassetteEntity extends Model {
 
     //region Public Fields
 
@@ -20,15 +20,21 @@ public class CassetteEntity extends Model{
      */
     public long id;
 
-    /** Title of this Cassette.
-     *  Not required. */
+    /**
+     * Title of this Cassette.
+     * Not required.
+     */
     public String title;
 
-    /** Description of the Cassette.
-     *  Not required. */
+    /**
+     * Description of the Cassette.
+     * Not required.
+     */
     public String descripition;
 
-    /** UNIX time representation of date and time of creating this Cassette. */
+    /**
+     * UNIX time representation of date and time of creating this Cassette.
+     */
     public long dateTimeOfCreation;
 
     /**
@@ -37,19 +43,27 @@ public class CassetteEntity extends Model{
      */
     public int length;
 
-    /** Number of the Recordings on this Cassette. */
+    /**
+     * Number of the Recordings on this Cassette.
+     */
     public int numberOfRecordings;
 
-    /** Was this Cassette compiled to one File.
-     *  0 - was not compiled.
-     *  1 - was compiled. */
+    /**
+     * Was this Cassette compiled to one File.
+     * 0 - was not compiled.
+     * 1 - was compiled.
+     */
     public int isCompiled;
 
-    /** Compiled audio file path.
-     *  This string is null or empty if this.wasCompiled is 0. */
+    /**
+     * Compiled audio file path.
+     * This string is null or empty if this.wasCompiled is 0.
+     */
     public String compiledFilePath;
 
-    /** UNIX time representation of date and time of compilation of this Cassette. */
+    /**
+     * UNIX time representation of date and time of compilation of this Cassette.
+     */
     public long dateTimeOfCompilation;
 
     //endregion Public Fields
@@ -58,12 +72,15 @@ public class CassetteEntity extends Model{
 
     /**
      * Default constructor.
-     * */
-    public CassetteEntity(){}
+     */
+    public CassetteEntity() {
+    }
 
-    /** Initializes a new instance of the CassetteEntity class using provided title, description
-     *  and date and time of creation. */
-    public CassetteEntity(String title, String description, Date dateTimeOfCreation){
+    /**
+     * Initializes a new instance of the CassetteEntity class using provided title, description
+     * and date and time of creation.
+     */
+    public CassetteEntity(String title, String description, Date dateTimeOfCreation) {
         this.title = title;
         this.descripition = description;
         this.dateTimeOfCreation = dateTimeOfCreation.getTime();
@@ -100,7 +117,7 @@ public class CassetteEntity extends Model{
 
         id = cursor.getLong(idColumnIndex);
         title = cursor.getString(titleColumnIndex);
-        descripition = cursor.getString(descriptionColumnIndex);
+        description = cursor.getString(descriptionColumnIndex);
         dateTimeOfCreation = cursor.getLong(dateTimeCreationColumnIndex);
         length = cursor.getInt(lengthColumnIndex);
         numberOfRecordings = cursor.getInt(numberOfRecordingsColumnIndex);

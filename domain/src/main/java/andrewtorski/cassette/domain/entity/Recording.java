@@ -81,18 +81,18 @@ public class Recording {
      * Constructor which only should be used when Mapping from DAL RecordingEntity
      * to Domain Recording.
      */
-    public Recording(long id, String title,
-                     String descripition, Date dateTimeOfRecording,
-                     int lengthInMiliseconds, String audioFilePath,
-                     int sequenceInTheCassette, Cassette cassette) {
+    public Recording(long id, long cassetteId, String title,
+                     String description, Date dateTimeOfRecording,
+                     int lengthInMilliseconds, String audioFilePath,
+                     int sequenceInTheCassette) {
         this.id = id;
+        this.cassetteId = cassetteId;
         this.title = title;
-        this.descripition = descripition;
+        this.descripition = description;
         this.dateTimeOfRecording = dateTimeOfRecording;
-        this.lengthInMiliseconds = lengthInMiliseconds;
+        this.lengthInMiliseconds = lengthInMilliseconds;
         this.audioFilePath = audioFilePath;
         this.sequenceInTheCassette = sequenceInTheCassette;
-        this.cassette = cassette;
         this.cassetteId = cassette.getId();
     }
 
