@@ -11,7 +11,7 @@ public interface CassetteDataStore {
     /**
      * Persists provided CassetteEntity and then returns it with it's identifier field updated.
      */
-    CassetteEntity createCassette(CassetteEntity cassetteEntity);
+    CassetteEntity create(CassetteEntity cassetteEntity);
 
     /**
      * Retrieves a Cassette using the provided id.
@@ -19,24 +19,25 @@ public interface CassetteDataStore {
      * @param cassetteId Id of the Cassette.
      * @return Reference to Cassette or null if nothing was found.
      */
-    CassetteEntity getCassetteEntityDetails(final long cassetteId);
+    CassetteEntity get(final long cassetteId);
 
     /**
      * Returns a list of all CassetteEntities in the database.
      *
      * @return List of CassetteEntities.
      */
-    List<CassetteEntity> getAllCassettes();
+    List<CassetteEntity> getAll();
 
     /**
      * Returns all CassetteEntities which were created between provided date span.
      * List is sorted descendingly.
      * Date span is expressed as two UNIX time values.
-     * @param fromDate  UNIX time representing from-date.
-     * @param ToDate    UNIX time representing to-date.
+     *
+     * @param fromDate UNIX time representing from-date.
+     * @param ToDate   UNIX time representing to-date.
      * @return List of CassetteEntities.
      */
-    List<CassetteEntity> getAllCassettesBetweenDatesDescending(long fromDate, long ToDate);
+    List<CassetteEntity> getAllBetweenDates(long fromDate, long ToDate);
 
     /**
      * Updates existing cassette of cassetteEntity's id with cassetteEntity data.
@@ -44,7 +45,7 @@ public interface CassetteDataStore {
      * @param cassetteEntity CassetteEntity to be updated.
      * @return Was this operation successful.
      */
-    boolean updateCassette(CassetteEntity cassetteEntity);
+    boolean update(CassetteEntity cassetteEntity);
 
     /**
      * Deletes provided CassetteEntity.
@@ -52,7 +53,7 @@ public interface CassetteDataStore {
      * @param cassetteEntity CassetteEntity to be deleted.
      * @return Was this operation successful.
      */
-    boolean deleteCassette(CassetteEntity cassetteEntity);
+    boolean delete(CassetteEntity cassetteEntity);
 
     /**
      * Deletes provided CassetteEntity of provided identifier.
@@ -60,5 +61,5 @@ public interface CassetteDataStore {
      * @param id Identifier of CassetteEntity to be deleted.
      * @return Was this operation successful.
      */
-    boolean deleteCassette(long id);
+    boolean delete(long id);
 }

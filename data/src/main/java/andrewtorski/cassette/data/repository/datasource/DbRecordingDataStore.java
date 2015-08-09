@@ -13,21 +13,21 @@ import andrewtorski.cassette.data.entity.RecordingEntity;
  */
 public class DbRecordingDataStore implements RecordingDataStore {
 
-    private RecordingDataDbAdapter recordingDataDbAdapter;
+    private RecordingDataDbAdapter dbAdapter;
 
     public DbRecordingDataStore() {
-        recordingDataDbAdapter = RecordingDataDbAdapter.getInstance();
+        dbAdapter = RecordingDataDbAdapter.getInstance();
     }
 
     @Override
-    public RecordingEntity createRecording(RecordingEntity recordingEntity) {
+    public RecordingEntity create(RecordingEntity recordingEntity) {
 
         long cassetteId = recordingEntity.cassetteId;
         int sequenceInCassette = recordingEntity.sequenceInTheCassette;
         long dateTimeOfRecording = recordingEntity.dateTimeOfRecording;
         String filePath = recordingEntity.audioFilePath;
         int length = recordingEntity.length;
-        long id = recordingDataDbAdapter.createRecording(cassetteId, sequenceInCassette, dateTimeOfRecording, filePath, length);
+        long id = dbAdapter.createRecording(cassetteId, sequenceInCassette, dateTimeOfRecording, filePath, length);
 
         recordingEntity.id = id;
 
@@ -35,8 +35,8 @@ public class DbRecordingDataStore implements RecordingDataStore {
     }
 
     @Override
-    public RecordingEntity getRecordingDetails(long recordingId) {
-        Cursor cursor = recordingDataDbAdapter.getRecordingById(recordingId);
+    public RecordingEntity get(long recordingId) {
+        Cursor cursor = dbAdapter.getRecordingById(recordingId);
 
         if (cursor == null) {
             return null;
@@ -48,55 +48,55 @@ public class DbRecordingDataStore implements RecordingDataStore {
     }
 
     @Override
-    public List<RecordingEntity> getAllRecordings() {
-        Cursor cursor = recordingDataDbAdapter.getAllRecordings();
+    public List<RecordingEntity> getAll() {
+        Cursor cursor = dbAdapter.getAllRecordings();
 
         return DbRecordingDataStore.getListOfRecordingsFromCursor(cursor);
     }
 
     @Override
-    public List<RecordingEntity> getAllRecordingsWhichBelongToCassette(long cassetteId) {
-        Cursor cursor = recordingDataDbAdapter.getAllRecordingsWhichBelongToCassette(cassetteId);
+    public List<RecordingEntity> getAllForCassette(long cassetteId) {
+        Cursor cursor = dbAdapter.getAllRecordingsWhichBelongToCassette(cassetteId);
 
         return DbRecordingDataStore.getListOfRecordingsFromCursor(cursor);
     }
 
     @Override
-    public List<RecordingEntity> getAllRecordingsBetweenDatesDescending(long fromDate, long toDate) {
-        Cursor cursor = recordingDataDbAdapter.getAllRecordingsBetweenDatesDescending(fromDate, toDate);
+    public List<RecordingEntity> getAllBetweenDates(long fromDate, long toDate) {
+        Cursor cursor = dbAdapter.getAllRecordingsBetweenDatesDescending(fromDate, toDate);
 
         return DbRecordingDataStore.getListOfRecordingsFromCursor(cursor);
     }
 
     @Override
-    public List<RecordingEntity> getAllRecordingsBetweenDatesWhichBelongToCassetteDescending(long cassetteId, long fromDate, long toDate) {
-        Cursor cursor = recordingDataDbAdapter.getAllRecordingsBetweenDatesForCassetteDescending(cassetteId, fromDate, toDate);
+    public List<RecordingEntity> getAllBetweenDatesForCassette(long cassetteId, long fromDate, long toDate) {
+        Cursor cursor = dbAdapter.getAllRecordingsBetweenDatesForCassetteDescending(cassetteId, fromDate, toDate);
 
         return DbRecordingDataStore.getListOfRecordingsFromCursor(cursor);
     }
 
     @Override
-    public List<RecordingEntity> getAllRecordingsWhichContainTitleOrDescriptionSimilarTo(String searchClause) {
-        Cursor cursor = recordingDataDbAdapter.getAllRecordingsWithTitleAndDescriptionLike(searchClause);
+    public List<RecordingEntity> getAllWithTitleOrDescriptionLike(String searchClause) {
+        Cursor cursor = dbAdapter.getAllRecordingsWithTitleAndDescriptionLike(searchClause);
 
         return DbRecordingDataStore.getListOfRecordingsFromCursor(cursor);
     }
 
     @Override
-    public boolean updateRecording(RecordingEntity recordingEntity) {
+    public boolean update(RecordingEntity recordingEntity) {
 
         long id = recordingEntity.id;
         String title = recordingEntity.title,
                 description = recordingEntity.description;
 
-        boolean wasSuccess = recordingDataDbAdapter.updateRecording(id, title, description);
+        boolean wasSuccess = dbAdapter.updateRecording(id, title, description);
 
         return wasSuccess;
     }
 
     @Override
-    public boolean deleteRecording(long id) {
-        return recordingDataDbAdapter.deleteRecording(id);
+    public boolean delete(long id) {
+        return dbAdapter.deleteRecording(id);
     }
 
     private static List<RecordingEntity> getListOfRecordingsFromCursor(Cursor cursor) {

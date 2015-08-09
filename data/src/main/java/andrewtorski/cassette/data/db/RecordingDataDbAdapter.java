@@ -184,10 +184,10 @@ public class RecordingDataDbAdapter {
     /**
      * Updates Recording of specified if with provided title and description.
      *
-     * @param id          Identifier of the Recording to updateCassette.
+     * @param id          Identifier of the Recording to update.
      * @param title       New title.
      * @param description New description.
-     * @return Was updateCassette successful.
+     * @return Was update successful.
      */
     public boolean updateRecording(long id, String title, String description) {
         ContentValues values = new ContentValues();
@@ -205,7 +205,7 @@ public class RecordingDataDbAdapter {
 
     /**
      * Deletes Recording of specified id.
-     * @param id Identifier of the Recording to deleteCassette.
+     * @param id Identifier of the Recording to delete.
      * @return Was deletion successful.
      */
     public boolean deleteRecording(long id) {

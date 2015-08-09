@@ -1,5 +1,6 @@
 package andrewtorski.cassette.domain.repository;
 
+import java.util.Date;
 import java.util.List;
 
 import andrewtorski.cassette.domain.entity.Cassette;
@@ -17,7 +18,7 @@ public interface RecordingRepository {
      * @param recording Recording to persist.
      * @return Persisted recording.
      */
-    Recording createRecording(Recording recording);
+    Recording create(Recording recording);
 
     /**
      * Updates the provided Recording.
@@ -49,5 +50,33 @@ public interface RecordingRepository {
      * @param cassette Cassette for which a search for Recordings is performed.
      * @return List of Recordings.
      */
-    List<Recording> getRecordingsForCassette(Cassette cassette);
+    List<Recording> getAllForCassette(Cassette cassette);
+
+    /**
+     * Returns all Recordings which were recorded in the provided date span.
+     *
+     * @param fromDate From date.
+     * @param toDate   To date
+     * @return List of Recordings.
+     */
+    List<Recording> getAllBetweenDatesForCassette(Date fromDate, Date toDate);
+
+    /**
+     * Returns all Recordings which were recorded  in the provided date span and which belong to the
+     * provided Cassette.
+     *
+     * @param cassette Cassette for which a search for Recordings is performed.
+     * @param fromDate From date.
+     * @param toDate   To date
+     * @return List of Recordings.
+     */
+    List<Recording> getAllBetweenDatesForCassette(Cassette cassette, Date fromDate, Date toDate);
+
+    /**
+     * Returns all Recordings which title or description are like the provided search clause.
+     *
+     * @param searchClause The search clause.
+     * @return List of Recordings.
+     */
+    List<Recording> getAllWhichTitleOrDescriptionIsLike(String searchClause);
 }

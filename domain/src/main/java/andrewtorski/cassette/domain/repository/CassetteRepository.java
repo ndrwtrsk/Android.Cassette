@@ -15,12 +15,12 @@ public interface CassetteRepository {
     /** Creates a Cassette using title and description.
      * @param cassette Cassette to be persisted.
      */
-    Cassette createCassette(Cassette cassette);
+    Cassette create(Cassette cassette);
 
     /** Retrieves a Cassette using the provided id.
      * @param cassetteId Id of the Cassette.
      * @return Reference to Cassette or null if nothing was found. */
-    Cassette getCassette(final int cassetteId);
+    Cassette get(final int cassetteId);
 
     /**
      * Returns a list of all Cassettes present.
@@ -38,14 +38,14 @@ public interface CassetteRepository {
      * @param ToDate    UNIX time representing to-date.
      * @return List of CassetteEntities.
      */
-    List<Cassette> getAllCassettesBetweenDatesDescending(Date fromDate, Date ToDate);
+    List<Cassette> getAllBetweenDatesDescending(Date fromDate, Date ToDate);
 
     /**
      * Populates provided Cassette's collection of Recordings.
      *
      * @param cassette Cassette to initialize.
      */
-    void initializeCassetteWithRecordings(Cassette cassette);
+    void populateRecordings(Cassette cassette);
 
     /**
      * Updates Cassette.

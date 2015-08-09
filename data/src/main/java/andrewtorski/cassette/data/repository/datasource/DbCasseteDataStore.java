@@ -12,22 +12,22 @@ import andrewtorski.cassette.data.entity.CassetteEntity;
  * {@link CassetteDataStore} implementation based on SQLite database.
  */
 public class DbCasseteDataStore implements CassetteDataStore {
-    private CassetteDataDbAdapter cassetteDataDbAdapter;
+    private CassetteDataDbAdapter dbAdapter;
 
     public DbCasseteDataStore() {
-        cassetteDataDbAdapter = CassetteDataDbAdapter.getInstance();
+        dbAdapter = CassetteDataDbAdapter.getInstance();
     }
 
 
     @Override
-    public CassetteEntity createCassette(CassetteEntity cassetteEntity) {
+    public CassetteEntity create(CassetteEntity cassetteEntity) {
         String title = cassetteEntity.title,
                 description = cassetteEntity.descripition;
         long dateTimeOfCreation = cassetteEntity.dateTimeOfCreation;
 
-        long id = cassetteDataDbAdapter.createCassette(title, description, dateTimeOfCreation);
+        long id = dbAdapter.createCassette(title, description, dateTimeOfCreation);
 
-        //TODO: what to do when -1 is returned from createCassette?
+        //TODO: what to do when -1 is returned from create?
         //  1)  return null
         //  2)  return cassetteEntity with id as -1
         //      and then perform some additional actions in either domain layer or presentation?
@@ -38,8 +38,8 @@ public class DbCasseteDataStore implements CassetteDataStore {
     }
 
     @Override
-    public CassetteEntity getCassetteEntityDetails(long cassetteId) {
-        Cursor cursor = cassetteDataDbAdapter.getCassetteById(cassetteId);
+    public CassetteEntity get(long cassetteId) {
+        Cursor cursor = dbAdapter.getCassetteById(cassetteId);
 
         if (cursor == null) {
             return null;
@@ -56,13 +56,13 @@ public class DbCasseteDataStore implements CassetteDataStore {
      * @return Linked list of CassetteEntities.
      */
     @Override
-    public List<CassetteEntity> getAllCassettes() {
+    public List<CassetteEntity> getAll() {
         //  LinkedList is used here, because indexing operation is completely out of our interests
         //  right now. ArrayList would prove to be slower here, as it has to be extended as it's
         //  capacity changes.
         LinkedList<CassetteEntity> cassetteEntityLinkedList = new LinkedList<>();
 
-        Cursor cursor = cassetteDataDbAdapter.getAllCassettes();
+        Cursor cursor = dbAdapter.getAllCassettes();
 
         if (cursor == null) {
             return cassetteEntityLinkedList;
@@ -78,11 +78,11 @@ public class DbCasseteDataStore implements CassetteDataStore {
     }
 
     @Override
-    public List<CassetteEntity> getAllCassettesBetweenDatesDescending(long fromDate, long toDate) {
+    public List<CassetteEntity> getAllBetweenDates(long fromDate, long toDate) {
 
         List<CassetteEntity> cassetteEntityList = new LinkedList<>();
 
-        Cursor cursor = cassetteDataDbAdapter.getAllCassettesCreatedBetweenDatesDescending(fromDate, toDate);
+        Cursor cursor = dbAdapter.getAllCassettesCreatedBetweenDatesDescending(fromDate, toDate);
 
         if (cursor == null) {
             return cassetteEntityList;
@@ -98,12 +98,12 @@ public class DbCasseteDataStore implements CassetteDataStore {
     }
 
     @Override
-    public boolean updateCassette(CassetteEntity cassetteEntity) {
+    public boolean update(CassetteEntity cassetteEntity) {
         if (cassetteEntity == null) {
             return false;
         }
 
-        boolean wasSuccess = cassetteDataDbAdapter.updateCassette(cassetteEntity.id, cassetteEntity.title,
+        boolean wasSuccess = dbAdapter.updateCassette(cassetteEntity.id, cassetteEntity.title,
                 cassetteEntity.descripition, cassetteEntity.length, cassetteEntity.numberOfRecordings,
                 cassetteEntity.isCompiled, cassetteEntity.compiledFilePath, cassetteEntity.dateTimeOfCompilation);
 
@@ -111,16 +111,16 @@ public class DbCasseteDataStore implements CassetteDataStore {
     }
 
     @Override
-    public boolean deleteCassette(CassetteEntity cassetteEntity) {
+    public boolean delete(CassetteEntity cassetteEntity) {
         if (cassetteEntity == null) {
             return false;
         }
-        return deleteCassette(cassetteEntity.id);
+        return delete(cassetteEntity.id);
     }
 
     @Override
-    public boolean deleteCassette(long id) {
-        boolean wasSuccess = cassetteDataDbAdapter.deleteCassette(id);
+    public boolean delete(long id) {
+        boolean wasSuccess = dbAdapter.deleteCassette(id);
         return wasSuccess;
     }
 }

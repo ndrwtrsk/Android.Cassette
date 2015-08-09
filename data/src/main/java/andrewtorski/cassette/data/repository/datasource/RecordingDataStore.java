@@ -15,7 +15,7 @@ public interface RecordingDataStore {
      * @param recordingEntity RecordingEntity to insert.
      * @return Same RecordingEntity as provided in the parameter, but with it's id field updated.
      */
-    RecordingEntity createRecording(RecordingEntity recordingEntity);
+    RecordingEntity create(RecordingEntity recordingEntity);
 
     /**
      * Returns a RecordingEntity of specified identifier.
@@ -23,20 +23,20 @@ public interface RecordingDataStore {
      * @param recordingId Identifier of the searched RecordingEntity.
      * @return Reference to RecordingEntity object if found or null if not.
      */
-    RecordingEntity getRecordingDetails(final long recordingId);
+    RecordingEntity get(final long recordingId);
 
     /**
      * Returns all possible, existent RecordingEntities.
      * @return List of RecordingEntities.
      */
-    List<RecordingEntity> getAllRecordings();
+    List<RecordingEntity> getAll();
 
     /**
      * Returns all RecordingEntities which belong to Cassette of specified identifier.
      * @param cassetteId Id of the Cassette.
      * @return List of RecordingEntities.
      */
-    List<RecordingEntity> getAllRecordingsWhichBelongToCassette(final long cassetteId);
+    List<RecordingEntity> getAllForCassette(final long cassetteId);
 
     /**
      * Returns all RecordingEntities which were recorded in the provide date span expressed as two
@@ -45,7 +45,7 @@ public interface RecordingDataStore {
      * @param toDate To date, epoch time.
      * @return List of RecordingEntities.
      */
-    List<RecordingEntity> getAllRecordingsBetweenDatesDescending(long fromDate, long toDate);
+    List<RecordingEntity> getAllBetweenDates(long fromDate, long toDate);
 
     /**
      * Returns all RecordingEntities which were recorded in the provide date span expressed as two
@@ -55,14 +55,14 @@ public interface RecordingDataStore {
      * @param cassetteId Id of the Cassette.
      * @return List of RecordingEntities.
      */
-    List<RecordingEntity> getAllRecordingsBetweenDatesWhichBelongToCassetteDescending(long cassetteId, long fromDate, long toDate);
+    List<RecordingEntity> getAllBetweenDatesForCassette(long cassetteId, long fromDate, long toDate);
 
     /**
      * Returns all Recordings which title or description match in anyway the specified searchClause.
      * @param searchClause Searched phrase.
      * @return List of RecordingEntities.
      */
-    List<RecordingEntity> getAllRecordingsWhichContainTitleOrDescriptionSimilarTo(String searchClause);
+    List<RecordingEntity> getAllWithTitleOrDescriptionLike(String searchClause);
 
     /**
      * Updates the provided RecordingEntity with the data provider.
@@ -70,12 +70,12 @@ public interface RecordingDataStore {
      * @param recordingEntity RecordingEntity to update.
      * @return Was update successful.
      */
-    boolean updateRecording(RecordingEntity recordingEntity);
+    boolean update(RecordingEntity recordingEntity);
 
     /**
      * Deletes the provided RecordingEntity with the date provider.
      * @param id Identifier of the RecordingEntity to delete.
      * @return Was deletion successful.
      */
-    boolean deleteRecording(long id);
+    boolean delete(long id);
 }

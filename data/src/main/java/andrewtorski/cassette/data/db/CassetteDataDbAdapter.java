@@ -145,7 +145,7 @@ public class CassetteDataDbAdapter {
      * @param title New title of the Cassette.
      * @param description New description of the Cassette.
      * @param length new length in milliseconds of all Recordings contained on updated Cassette.
-     * @param numberOfRecordings New count of Recordings contained on updateCassette Cassette.
+     * @param numberOfRecordings New count of Recordings contained on update Cassette.
      * @param isCompiled Was this Cassette compiled.
      * @param compiledFilePath New compiled file path for updated Cassette.
      * @param dateTimeOfCompilation New date and time of compilation of updated Cassette.

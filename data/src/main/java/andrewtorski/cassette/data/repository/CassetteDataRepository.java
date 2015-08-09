@@ -38,11 +38,11 @@ public class CassetteDataRepository implements CassetteRepository {
      * @param cassette Cassette to be persisted.
      */
     @Override
-    public Cassette createCassette(Cassette cassette) {
+    public Cassette create(Cassette cassette) {
         CassetteEntity cassetteEntity = new CassetteEntity(cassette.getTitle(),
                 cassette.getDescription(), cassette.getDateTimeOfCreation());
 
-        cassetteEntity = cassetteDataStore.createCassette(cassetteEntity);
+        cassetteEntity = cassetteDataStore.create(cassetteEntity);
 
         cassette = mapper.transform(cassetteEntity);
 
@@ -56,8 +56,8 @@ public class CassetteDataRepository implements CassetteRepository {
      * @param cassetteId Id of the Cassette.
      * @return Reference to Cassette or null if nothing was found. */
     @Override
-    public Cassette getCassette(int cassetteId) {
-        CassetteEntity cassetteEntity = cassetteDataStore.getCassetteEntityDetails(cassetteId);
+    public Cassette get(int cassetteId) {
+        CassetteEntity cassetteEntity = cassetteDataStore.get(cassetteId);
 
         if (cassetteEntity == null) {
             return null;
@@ -76,7 +76,7 @@ public class CassetteDataRepository implements CassetteRepository {
     @Override
     public List<Cassette> getAll() {
         //  linked list
-        List<CassetteEntity> cassetteEntityList = cassetteDataStore.getAllCassettes();
+        List<CassetteEntity> cassetteEntityList = cassetteDataStore.getAll();
 
         List<Cassette> cassetteList = new LinkedList<>(mapper.transform(cassetteEntityList));
 
@@ -95,10 +95,10 @@ public class CassetteDataRepository implements CassetteRepository {
      * @return List of CassetteEntities.
      */
     @Override
-    public List<Cassette> getAllCassettesBetweenDatesDescending(Date fromDate, Date toDate) {
+    public List<Cassette> getAllBetweenDatesDescending(Date fromDate, Date toDate) {
         long unixFromDate = fromDate.getTime(),
                 unixToDate = toDate.getTime();
-        List<CassetteEntity> cassetteEntityList = cassetteDataStore.getAllCassettesBetweenDatesDescending(unixFromDate, unixToDate);
+        List<CassetteEntity> cassetteEntityList = cassetteDataStore.getAllBetweenDates(unixFromDate, unixToDate);
         List<Cassette> resultList = new LinkedList<>();
 
         Cassette cassette;
@@ -119,12 +119,12 @@ public class CassetteDataRepository implements CassetteRepository {
      */
     @Override
     //TODO: return boolean for successful operation?
-    public void initializeCassetteWithRecordings(Cassette cassette) {
+    public void populateRecordings(Cassette cassette) {
         if (cassette == null) {
             return;
         }
 
-        List<Recording> associatedRecordings = recordingRepository.getRecordingsForCassette(cassette);
+        List<Recording> associatedRecordings = recordingRepository.getAllForCassette(cassette);
 
         cassette.setRecordings(associatedRecordings);
     }
@@ -139,7 +139,7 @@ public class CassetteDataRepository implements CassetteRepository {
     public boolean update(Cassette cassette) {
         CassetteEntity cassetteEntity = mapper.transform(cassette);
 
-        boolean wasSuccess = cassetteDataStore.updateCassette(cassetteEntity);
+        boolean wasSuccess = cassetteDataStore.update(cassetteEntity);
 
         return wasSuccess;
     }
@@ -167,7 +167,7 @@ public class CassetteDataRepository implements CassetteRepository {
      */
     @Override
     public boolean delete(long id) {
-        boolean wasSuccess = cassetteDataStore.deleteCassette(id);
+        boolean wasSuccess = cassetteDataStore.delete(id);
 
         return wasSuccess;
     }
