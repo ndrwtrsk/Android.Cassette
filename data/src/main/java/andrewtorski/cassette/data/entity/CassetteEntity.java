@@ -133,7 +133,7 @@ public class CassetteEntity extends Model {
      * Constructs a CassetteEntity based on the information currently contained in the Cursor.
      *
      * @param cursor Cursor which holds information about this
-     * @return
+     * @return CassetteEntity created from data in Cursor.
      */
     public static CassetteEntity createCassetteEntityFromCursor(Cursor cursor) {
         if (cursor == null) {
