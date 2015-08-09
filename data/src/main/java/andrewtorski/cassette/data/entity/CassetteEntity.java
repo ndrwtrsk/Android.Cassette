@@ -141,14 +141,14 @@ public class CassetteEntity extends Model {
         }
 
         int idColumnIndex = cursor.getColumnIndex(CassetteDbContract.CassetteTable.COLUMN_NAME_ID);
-        int titleColumnIndex = cursor.getColumnIndex(CassetteDbContract.CassetteTable.COLUMN_NAME_ID);
-        int descriptionColumnIndex = cursor.getColumnIndex(CassetteDbContract.CassetteTable.COLUMN_NAME_ID);
-        int dateTimeCreationColumnIndex = cursor.getColumnIndex(CassetteDbContract.CassetteTable.COLUMN_NAME_ID);
-        int lengthColumnIndex = cursor.getColumnIndex(CassetteDbContract.CassetteTable.COLUMN_NAME_ID);
-        int numberOfRecordingsColumnIndex = cursor.getColumnIndex(CassetteDbContract.CassetteTable.COLUMN_NAME_ID);
-        int isCompiledColumnIndex = cursor.getColumnIndex(CassetteDbContract.CassetteTable.COLUMN_NAME_ID);
-        int compiledFilePathColumnIndex = cursor.getColumnIndex(CassetteDbContract.CassetteTable.COLUMN_NAME_ID);
-        int dateTimeCompilationColumnIndex = cursor.getColumnIndex(CassetteDbContract.CassetteTable.COLUMN_NAME_ID);
+        int titleColumnIndex = cursor.getColumnIndex(CassetteDbContract.CassetteTable.COLUMN_NAME_TITLE);
+        int descriptionColumnIndex = cursor.getColumnIndex(CassetteDbContract.CassetteTable.COLUMN_NAME_DESCRIPTION);
+        int dateTimeCreationColumnIndex = cursor.getColumnIndex(CassetteDbContract.CassetteTable.COLUMN_NAME_DATE_TIME_OF_CREATION);
+        int lengthColumnIndex = cursor.getColumnIndex(CassetteDbContract.CassetteTable.COLUMN_NAME_LENGTH);
+        int numberOfRecordingsColumnIndex = cursor.getColumnIndex(CassetteDbContract.CassetteTable.COLUMN_NAME_NUMBER_OF_RECORDINGS);
+        int isCompiledColumnIndex = cursor.getColumnIndex(CassetteDbContract.CassetteTable.COLUMN_NAME_IS_COMPILED);
+        int compiledFilePathColumnIndex = cursor.getColumnIndex(CassetteDbContract.CassetteTable.COLUMN_NAME_COMPILED_FILE_PATH);
+        int dateTimeCompilationColumnIndex = cursor.getColumnIndex(CassetteDbContract.CassetteTable.COLUMN_NAME_DATE_TIME_OF_COMPILATION);
 
         long id = cursor.getLong(idColumnIndex);
         String title = cursor.getString(titleColumnIndex);
