@@ -12,20 +12,26 @@ import andrewtorski.cassette.domain.entity.Cassette;
  */
 public interface CassetteRepository {
 
-    /** Creates a Cassette using title and description.
+    /**
+     * Creates a Cassette using title and description.
+     *
      * @param cassette Cassette to be persisted.
      */
     Cassette create(Cassette cassette);
 
-    /** Retrieves a Cassette using the provided id.
+    /**
+     * Retrieves a Cassette using the provided id.
+     *
      * @param cassetteId Id of the Cassette.
-     * @return Reference to Cassette or null if nothing was found. */
+     * @return Reference to Cassette or null if nothing was found.
+     */
     Cassette get(final int cassetteId);
 
     /**
      * Returns a list of all Cassettes present.
      * These Cassettes do not include their associated Recordings.
      * Should be used for listing purposes exclusively.
+     *
      * @return List of Cassettes.
      */
     List<Cassette> getAll();
@@ -34,18 +40,12 @@ public interface CassetteRepository {
      * Returns all CassetteEntities which were created between provided date span.
      * List is sorted descendingly.
      * Date span is expressed as two UNIX time values.
-     * @param fromDate  UNIX time representing from-date.
-     * @param ToDate    UNIX time representing to-date.
+     *
+     * @param fromDate UNIX time representing from-date.
+     * @param ToDate   UNIX time representing to-date.
      * @return List of CassetteEntities.
      */
     List<Cassette> getAllBetweenDatesDescending(Date fromDate, Date ToDate);
-
-    /**
-     * Populates provided Cassette's collection of Recordings.
-     *
-     * @param cassette Cassette to initialize.
-     */
-    void populateRecordings(Cassette cassette);
 
     /**
      * Updates Cassette.

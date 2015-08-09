@@ -8,13 +8,11 @@ import andrewtorski.cassette.data.entity.CassetteEntity;
 import andrewtorski.cassette.data.entity.mapper.CassetteEntityDataMapper;
 import andrewtorski.cassette.data.repository.datasource.CassetteDataStore;
 import andrewtorski.cassette.domain.entity.Cassette;
-import andrewtorski.cassette.domain.entity.Recording;
 import andrewtorski.cassette.domain.repository.CassetteRepository;
-import andrewtorski.cassette.domain.repository.RecordingRepository;
 
 /**
  * Implementation of the @{andrewtorski.cassette.domain.repository.CassetteRepository}.
- *
+ * <p/>
  * For now this implementation uses Database to persist and retrieve data(@{DbCassetteDataStore},
  * but it should pose absolutely no problem of creating a CassetteDataStoreFactory which would
  * provide with access to, say: RestApiCassetteDataStore or perhaps JsonFileCassetteDataStore.
@@ -22,8 +20,6 @@ import andrewtorski.cassette.domain.repository.RecordingRepository;
 public class CassetteDataRepository implements CassetteRepository {
 
     private CassetteDataStore cassetteDataStore;
-
-    private RecordingRepository recordingRepository;
 
     private CassetteEntityDataMapper mapper;
 
@@ -49,12 +45,14 @@ public class CassetteDataRepository implements CassetteRepository {
         return cassette;
     }
 
-    /** Retrieves a Cassette using the provided id.
-     *
-     *  Returned Cassette already has it's list of associated Recordings populated.
+    /**
+     * Retrieves a Cassette using the provided id.
+     * <p/>
+     * Returned Cassette already has it's list of associated Recordings populated.
      *
      * @param cassetteId Id of the Cassette.
-     * @return Reference to Cassette or null if nothing was found. */
+     * @return Reference to Cassette or null if nothing was found.
+     */
     @Override
     public Cassette get(int cassetteId) {
         CassetteEntity cassetteEntity = cassetteDataStore.get(cassetteId);
@@ -71,6 +69,7 @@ public class CassetteDataRepository implements CassetteRepository {
      * Returns a list of all Cassettes present.
      * These Cassettes do not include their associated Recordings.
      * Should be used for listing purposes exclusively.
+     *
      * @return List of Cassettes.
      */
     @Override
@@ -110,23 +109,6 @@ public class CassetteDataRepository implements CassetteRepository {
         }
 
         return resultList;
-    }
-
-    /**
-     * Populates provided Cassette's collection of Recordings.
-     *
-     * @param cassette Cassette to initialize.
-     */
-    @Override
-    //TODO: return boolean for successful operation?
-    public void populateRecordings(Cassette cassette) {
-        if (cassette == null) {
-            return;
-        }
-
-        List<Recording> associatedRecordings = recordingRepository.getAllForCassette(cassette);
-
-        cassette.setRecordings(associatedRecordings);
     }
 
     /**
