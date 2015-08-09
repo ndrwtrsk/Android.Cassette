@@ -1,5 +1,6 @@
 package andrewtorski.cassette.domain.repository;
 
+import java.util.Date;
 import java.util.List;
 
 import andrewtorski.cassette.domain.entity.Cassette;
@@ -23,10 +24,28 @@ public interface CassetteRepository {
 
     /**
      * Returns a list of all Cassettes present.
-     *
+     * These Cassettes do not include their associated Recordings.
+     * Should be used for listing purposes exclusively.
      * @return List of Cassettes.
      */
     List<Cassette> getAll();
+
+    /**
+     * Returns all CassetteEntities which were created between provided date span.
+     * List is sorted descendingly.
+     * Date span is expressed as two UNIX time values.
+     * @param fromDate  UNIX time representing from-date.
+     * @param ToDate    UNIX time representing to-date.
+     * @return List of CassetteEntities.
+     */
+    List<Cassette> getAllCassettesBetweenDatesDescending(Date fromDate, Date ToDate);
+
+    /**
+     * Populates provided Cassette's collection of Recordings.
+     *
+     * @param cassette Cassette to initialize.
+     */
+    void initializeCassetteWithRecordings(Cassette cassette);
 
     /**
      * Updates Cassette.
