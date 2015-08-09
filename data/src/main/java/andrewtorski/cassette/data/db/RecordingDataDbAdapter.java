@@ -133,6 +133,42 @@ public class RecordingDataDbAdapter {
     }
 
     /**
+     * Returns a cursor containing all Recordings which date of recording is contained within the
+     * provided epoch time span.
+     * @param fromDate  From date, epoch time.
+     * @param toDate    To date, epoch time.
+     * @return Cursor.
+     */
+    public Cursor getAllRecordingsBetweenDatesDescending(long fromDate, long toDate) {
+        String betweenSelectClause = CassetteDbContract.RecordingTable.COLUMN_NAME_DATE_TIME_OF_RECORDING
+                + " BETWEEN " + fromDate + " AND " + toDate;
+
+        String orderBy = "DESCENDING";
+
+        return db.query(true, CassetteDbContract.RecordingTable.TABLE_NAME, null, betweenSelectClause, null,
+                null, null, orderBy, null);
+    }
+
+    public Cursor getAllRecordingsBetweenDatesForCassetteDescending(long cassetteId, long fromDate, long toDate) {
+        String betweenSelectClause = CassetteDbContract.RecordingTable.COLUMN_NAME_DATE_TIME_OF_RECORDING
+                + " BETWEEN " + fromDate + " AND " + toDate + " AND "
+                + CassetteDbContract.RecordingTable.COLUMN_NAME_CASSETTE_ID + "=" + cassetteId;
+
+        String orderBy = "DESCENDING";
+
+        return db.query(true, CassetteDbContract.RecordingTable.TABLE_NAME, null, betweenSelectClause, null,
+                null, null, orderBy, null);
+    }
+
+    public Cursor getAllRecordingsWithTitleAndDescriptionLike(String likeWhat) {
+        String likeClause = CassetteDbContract.RecordingTable.COLUMN_NAME_TITLE + " LIKE " + likeWhat;
+        likeClause += " OR " + CassetteDbContract.RecordingTable.COLUMN_NAME_DESCRIPTION + " LIKE " + likeWhat;
+
+        return db.query(true, CassetteDbContract.RecordingTable.TABLE_NAME, null, likeClause, null,
+                null, null, null, null);
+    }
+
+    /**
      * Returns a cursor containing Recordings which belong to the Cassette of the specified id.
      *
      * @param cassetteId Identifier of the Cassette for which are looking for connected Recordings.

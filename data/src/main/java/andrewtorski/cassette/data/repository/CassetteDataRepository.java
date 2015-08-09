@@ -8,7 +8,9 @@ import andrewtorski.cassette.data.entity.CassetteEntity;
 import andrewtorski.cassette.data.entity.mapper.CassetteEntityDataMapper;
 import andrewtorski.cassette.data.repository.datasource.CassetteDataStore;
 import andrewtorski.cassette.domain.entity.Cassette;
+import andrewtorski.cassette.domain.entity.Recording;
 import andrewtorski.cassette.domain.repository.CassetteRepository;
+import andrewtorski.cassette.domain.repository.RecordingRepository;
 
 /**
  * Implementation of the @{andrewtorski.cassette.domain.repository.CassetteRepository}.
@@ -20,9 +22,8 @@ import andrewtorski.cassette.domain.repository.CassetteRepository;
 public class CassetteDataRepository implements CassetteRepository {
 
     private CassetteDataStore cassetteDataStore;
-    //private RecordingDataStore recordingDataStore;
-    //or
-    //private RecordingRepository???
+
+    private RecordingRepository recordingRepository;
 
     private CassetteEntityDataMapper mapper;
 
@@ -117,8 +118,15 @@ public class CassetteDataRepository implements CassetteRepository {
      * @param cassette Cassette to initialize.
      */
     @Override
+    //TODO: return boolean for successful operation?
     public void initializeCassetteWithRecordings(Cassette cassette) {
+        if (cassette == null) {
+            return;
+        }
 
+        List<Recording> associatedRecordings = recordingRepository.getRecordingsForCassette(cassette);
+
+        cassette.setRecordings(associatedRecordings);
     }
 
     /**
