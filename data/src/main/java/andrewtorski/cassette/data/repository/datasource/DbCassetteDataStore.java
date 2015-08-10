@@ -11,10 +11,10 @@ import andrewtorski.cassette.data.entity.CassetteEntity;
 /**
  * {@link CassetteDataStore} implementation based on SQLite database.
  */
-public class DbCasseteDataStore implements CassetteDataStore {
+public class DbCassetteDataStore implements CassetteDataStore {
     private CassetteDataDbAdapter dbAdapter;
 
-    public DbCasseteDataStore() {
+    public DbCassetteDataStore() {
         dbAdapter = CassetteDataDbAdapter.getInstance();
     }
 
@@ -60,13 +60,13 @@ public class DbCasseteDataStore implements CassetteDataStore {
     @Override
     public List<CassetteEntity> getAll() {
         Cursor cursor = dbAdapter.getAll();
-        return DbCasseteDataStore.getListOfCasseettesFromCursor(cursor);
+        return DbCassetteDataStore.getListOfCasseettesFromCursor(cursor);
     }
 
     @Override
     public List<CassetteEntity> getAllBetweenDates(long fromDate, long toDate) {
         Cursor cursor = dbAdapter.getAllCreatedBetweenDates(fromDate, toDate);
-        return DbCasseteDataStore.getListOfCasseettesFromCursor(cursor);
+        return DbCassetteDataStore.getListOfCasseettesFromCursor(cursor);
     }
 
     @Override
