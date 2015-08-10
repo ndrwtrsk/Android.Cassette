@@ -18,6 +18,8 @@ public class CassetteDataDbAdapter {
 
     //region Private Fields
 
+    private static final String TAG = "CassetteDataDbAdapter";
+
     private DatabaseHelper dbHelper;
     private SQLiteDatabase db;
     private Context context;
@@ -41,10 +43,14 @@ public class CassetteDataDbAdapter {
 
         @Override
         public void onCreate(SQLiteDatabase db) {
+            db.execSQL(CassetteDbContract.CassetteTable.getCreateTableStatement());
+            db.execSQL(CassetteDbContract.RecordingTable.getCreateTableStatement());
         }
 
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+            db.execSQL(CassetteDbContract.RecordingTable.getDropTableStatement());
+            db.execSQL(CassetteDbContract.CassetteTable.getDropTableStatement());
         }
     }
 
@@ -66,7 +72,6 @@ public class CassetteDataDbAdapter {
 
     /**
      * Opens the connection to the database.
-     *
      * @return This instance.
      */
     public CassetteDataDbAdapter open() {
@@ -76,10 +81,39 @@ public class CassetteDataDbAdapter {
     }
 
     /**
+     * Returns true if the database is currently open.
+     */
+    public boolean isOpen() {
+        return (db != null) && db.isOpen();
+    }
+
+    public boolean doesCassetteTableExist() {
+
+        final String sqlite_masterTableName = "sqlite_master";
+        final String selectionClause = " WHERE name = '" + CassetteDbContract.CassetteTable.TABLE_NAME + "'";
+
+        final String query = "SELECT 1 as result FROM " + sqlite_masterTableName + selectionClause;
+
+        Cursor cursor = this.db.rawQuery(query, null);
+
+        if (cursor == null) {
+            return false;
+        }
+
+        cursor.moveToFirst();
+
+        int result = cursor.getInt(cursor.getColumnIndex("result"));
+        cursor.close();
+        return result == 1;
+    }
+
+    /**
      * Closes the connection to the database.
      */
     public void close() {
-        this.db.close();
+        if (db != null && db.isOpen()) {
+            this.db.close();
+        }
     }
 
     /**

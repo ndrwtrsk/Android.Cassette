@@ -22,12 +22,29 @@ public final class GlobalValues {
     private GlobalValues() {
     }
 
-    @SuppressWarnings("unchecked")
-    public static void setContext(Context context) {
-        context = context;
+
+    public static void setContext(Context providedContext) {
+        if (providedContext == null) {
+            throw new NullPointerException("context is null");
+        }
+        /*
+            Learned lesson for future:
+                Don't name parameter objects the same as the static fields of a class.
+
+                What was wrong:
+                (...) setContext(Context context){
+                    context = context...
+                }
+
+                Above didn't accomplish anything, it was assigning either the static field 'context'
+                to itself or the parameter 'context' to itself. Either way didn't set the static field
+                'context' to reference any object whatsoever and it ended up being null.
+
+         */
+        context = providedContext;
     }
 
-    @SuppressWarnings("unchecked")
+
     public static Context getContext() {
         return context;
     }

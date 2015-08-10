@@ -7,7 +7,7 @@ import java.util.List;
 import andrewtorski.cassette.data.db.helper.ColumnTypeAndName;
 
 /**
- * Created by andrew on 05.08.15.
+ * Contains meta-date about the database and all contained tables.
  */
 public class CassetteDbContract {
 
@@ -157,7 +157,7 @@ public class CassetteDbContract {
             sb.append(COLUMN_NAME_CASSETTE_ID);
             sb.append(") REFERENCES ");
             sb.append(CassetteTable.TABLE_NAME);
-            sb.append("(" + CassetteTable.COLUMN_NAME_ID + ")");
+            sb.append("(" + CassetteTable.COLUMN_NAME_ID + "))");
 
             return sb.toString();
         }

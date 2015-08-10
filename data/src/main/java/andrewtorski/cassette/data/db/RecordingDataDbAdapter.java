@@ -41,10 +41,14 @@ public class RecordingDataDbAdapter {
 
         @Override
         public void onCreate(SQLiteDatabase db) {
+            db.execSQL(CassetteDbContract.CassetteTable.getCreateTableStatement());
+            db.execSQL(CassetteDbContract.RecordingTable.getCreateTableStatement());
         }
 
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+            db.execSQL(CassetteDbContract.RecordingTable.getDropTableStatement());
+            db.execSQL(CassetteDbContract.CassetteTable.getDropTableStatement());
         }
     }
 
@@ -90,7 +94,6 @@ public class RecordingDataDbAdapter {
      * @param dateTimeOfRecording   UNIX time of date and time of recording.
      * @param audioFilePath         Path to the actual audio file.
      * @param length                Length(in milliseconds) of the recording.
-     *
      * @return Id of the newly created recording, -1 if insertion didn't succeed.
      */
     public long createRecording(long cassetteId, int sequenceInTheCassette,
@@ -135,8 +138,9 @@ public class RecordingDataDbAdapter {
     /**
      * Returns a cursor containing all Recordings which date of recording is contained within the
      * provided epoch time span.
-     * @param fromDate  From date, epoch time.
-     * @param toDate    To date, epoch time.
+     *
+     * @param fromDate From date, epoch time.
+     * @param toDate   To date, epoch time.
      * @return Cursor.
      */
     public Cursor getAllRecordingsBetweenDatesDescending(long fromDate, long toDate) {
@@ -205,6 +209,7 @@ public class RecordingDataDbAdapter {
 
     /**
      * Deletes Recording of specified id.
+     *
      * @param id Identifier of the Recording to delete.
      * @return Was deletion successful.
      */
