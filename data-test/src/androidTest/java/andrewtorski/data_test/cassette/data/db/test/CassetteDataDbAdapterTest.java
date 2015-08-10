@@ -4,12 +4,20 @@ import android.database.Cursor;
 import android.test.AndroidTestCase;
 import android.test.RenamingDelegatingContext;
 
+import java.util.Arrays;
+
 import andrewtorski.cassette.data.db.CassetteDataDbAdapter;
 import andrewtorski.cassette.data.entity.CassetteEntity;
 import andrewtorski.global.GlobalValues;
 
 /**
  * Tests functionalities provided by the CassetteDataDbAdapter.
+ *
+ * <h3>Key takeaways and lessons.</h3>
+ * <ol>
+ *     <li>#setUp() is executed before every test method.</li>
+ *     <li>#setUp() recreates database before every test method.</li>
+ * </ol>
  */
 public class CassetteDataDbAdapterTest extends AndroidTestCase {
 
@@ -17,8 +25,6 @@ public class CassetteDataDbAdapterTest extends AndroidTestCase {
 
     /**
      * This method is executed before ANY of the following test methods.
-     *
-     * @throws Exception
      */
     @Override
     protected void setUp() throws Exception {
@@ -57,7 +63,7 @@ public class CassetteDataDbAdapterTest extends AndroidTestCase {
 
         //  Act
         try {
-            newId = testedAdapter.createCassette(title, description, datetime);
+            newId = testedAdapter.create(title, description, datetime);
         } catch (Exception e) {
             wasExceptionThrown = true;
         }
@@ -66,16 +72,16 @@ public class CassetteDataDbAdapterTest extends AndroidTestCase {
         assertFalse("Exception was thrown during insertion into Cassette", wasExceptionThrown);
         //  Since this is the first record inserted, newId should be equal to 1.
         assertEquals("New Id is not equal to 1.", 1, newId);
-
+        assertEquals(1, testedAdapter.count());
         /*
             Get the record.
          */
         //  Arrange
 
         //  act
-        Cursor cursor = testedAdapter.getCassetteById(newId);
+        Cursor cursor = testedAdapter.getById(newId);
         assertNotNull("Cursor is null.", cursor);
-        CassetteEntity cassetteEntity = CassetteEntity.createCassetteEntityFromCursor(cursor);
+        CassetteEntity cassetteEntity = CassetteEntity.createFromCursor(cursor);
 
 
         //  Assert
@@ -86,7 +92,167 @@ public class CassetteDataDbAdapterTest extends AndroidTestCase {
     }
 
     public void test_thatThereAreNoRowsInTable() {
+        assertEquals(0, testedAdapter.count());
+    }
 
+    /**
+     * Insert a few rows, retrieve them and check if they match up.
+     */
+    public void test_InsertRows_andGetAll() {
+        //  Arrange
+        String title1 = "title1", description1 = "desc1";
+        long date1 = 1;
+        String title2 = "title2", description2 = "desc2";
+        long date2 = 2;
+        String title3 = "title3", description3 = "desc3";
+        long date3 = 3;
+
+        String[] titles = {title1, title2, title3};
+        String[] descriptions = {description1, description2, description3};
+        long[] dates = {date1, date2, date3};
+        long[] identifier = new long[3];
+
+        //  Act
+        for (int i = 0; i < 3; i++) {
+            identifier[i] = testedAdapter.create(titles[i], descriptions[i], dates[i]);
+        }
+
+        //  Assert
+        assertEquals(3, testedAdapter.count());
+        long[] expectedIdentifiers = {1, 2, 3};
+        assertTrue("Identifiers do not match.", Arrays.equals(expectedIdentifiers, identifier));
+
+        //  Act
+        //  retrieve rows from db
+        CassetteEntity[] cassetteEntities = new CassetteEntity[3];
+        for (int i = 0; i < 3; i++) {
+            Cursor cursor = testedAdapter.getById(identifier[i]);
+            cassetteEntities[i] = CassetteEntity.createFromCursor(cursor);
+            //  Assert
+            assertEquals(titles[i], cassetteEntities[i].title);
+            assertEquals(descriptions[i], cassetteEntities[i].descripition);
+            assertEquals(dates[i], cassetteEntities[i].dateTimeOfCreation);
+        }
+    }
+
+    /**
+     * Persist simple entity, then retrieve it, and change every possible field, again retrieve it
+     * and check if updated fields were properly update.
+     */
+    public void test_updatingCassette_everyField() {
+        //  Arrange
+        /*
+            First let's create a basic Entity and then persist the motherfucker.
+         */
+        String title = "title", description = "desc";
+        long date = 12000;
+
+        long id;
+        //  Act
+        id = testedAdapter.create(title, description, date);
+
+        //  retrieve the entity.
+
+        Cursor cursor = testedAdapter.getById(id);
+        CassetteEntity oldCassetteEntity = CassetteEntity.createFromCursor(cursor);
+        cursor.close();
+        boolean wasSuccess = testedAdapter.update(id, "newTitle", "newDescription", 12, 12, 1, "path",
+                13000);
+
+        //  Assert
+
+        assertTrue("Update was not successful", wasSuccess);
+
+        //  Act
+        // retrieve the newEntity
+        cursor = testedAdapter.getById(id);
+        CassetteEntity newCassetteEntity = CassetteEntity.createFromCursor(cursor);
+        cursor.close();
+
+        //  Assert
+        assertNotNull(newCassetteEntity);
+        assertEquals(id, newCassetteEntity.id);
+        //  date of creation should be the same, despite the update
+        assertEquals(oldCassetteEntity.dateTimeOfCreation, newCassetteEntity.dateTimeOfCreation);
+        assertEquals("newTitle", newCassetteEntity.title);
+        assertEquals("newDescription", newCassetteEntity.descripition);
+        assertEquals(12, newCassetteEntity.length);
+        assertEquals(12, newCassetteEntity.numberOfRecordings);
+        assertEquals("path", newCassetteEntity.compiledFilePath);
+        assertEquals(13000, newCassetteEntity.dateTimeOfCompilation);
+    }
+
+    /**
+     * Persist simple entity, then retrieve it, and change only length and filepath fields,
+     * again retrieve it and check if updated fields were properly update.
+     */
+    public void test_updatingCassette_justLengthAndFilePathFields() {
+        //  Arrange
+        /*
+            First let's create a basic Entity and then persist the motherfucker.
+         */
+        String title = "title", description = "desc";
+        long date = 12000;
+
+        long id;
+        //  Act
+        id = testedAdapter.create(title, description, date);
+
+        //  retrieve the entity.
+
+        Cursor cursor = testedAdapter.getById(id);
+        CassetteEntity oldCassetteEntity = CassetteEntity.createFromCursor(cursor);
+        cursor.close();
+        boolean wasSuccess = testedAdapter.update(id, oldCassetteEntity.title, oldCassetteEntity.descripition,
+                12, oldCassetteEntity.numberOfRecordings, oldCassetteEntity.isCompiled, "path",
+                oldCassetteEntity.dateTimeOfCompilation);
+
+        //  Assert
+
+        assertTrue("Update was not successful", wasSuccess);
+
+        //  Act
+        // retrieve the newEntity
+        cursor = testedAdapter.getById(id);
+        CassetteEntity newCassetteEntity = CassetteEntity.createFromCursor(cursor);
+        cursor.close();
+
+        //  Assert
+        assertNotNull(newCassetteEntity);
+        assertEquals(id, newCassetteEntity.id);
+        //  date of creation should be the same, despite the update
+        assertEquals(oldCassetteEntity.dateTimeOfCreation, newCassetteEntity.dateTimeOfCreation);
+        assertEquals(oldCassetteEntity.title, newCassetteEntity.title);
+        assertEquals(oldCassetteEntity.descripition, newCassetteEntity.descripition);
+        assertEquals(12, newCassetteEntity.length);
+        assertEquals(oldCassetteEntity.numberOfRecordings, newCassetteEntity.numberOfRecordings);
+        assertEquals("path", newCassetteEntity.compiledFilePath);
+        assertEquals(oldCassetteEntity.dateTimeOfCompilation, newCassetteEntity.dateTimeOfCompilation);
+    }
+
+    /**
+     * Persist basic entity, delete it, check if it was successful, then query for the number of rows
+     * and assert that the count is equal to 0.
+     */
+    public void test_deleting() {
+        //  Arrange
+        String title = "title", description = "desc";
+        long date = 12000;
+
+        long id;
+        //  Act
+        id = testedAdapter.create(title, description, date);
+
+        //  retrieve the entity.
+        Cursor cursor = testedAdapter.getById(id);
+        CassetteEntity oldCassetteEntity = CassetteEntity.createFromCursor(cursor);
+        cursor.close();
+
+        boolean wasDeleteSuccessful = testedAdapter.delete(oldCassetteEntity.id);
+        int count = testedAdapter.count();
+        //  Assert
+        assertTrue(wasDeleteSuccessful);
+        assertEquals(0, count);
     }
 
 }

@@ -125,7 +125,7 @@ public class CassetteDataDbAdapter {
      *                           as seconds.
      * @return Id of the newly inserted row or -1 if insertion was not possible.
      */
-    public long createCassette(String title, String description, long dateTimeOfCreation) {
+    public long create(String title, String description, long dateTimeOfCreation) {
         ContentValues values = new ContentValues();
         values.put(CassetteDbContract.CassetteTable.COLUMN_NAME_TITLE, title);
         values.put(CassetteDbContract.CassetteTable.COLUMN_NAME_DESCRIPTION, description);
@@ -139,11 +139,11 @@ public class CassetteDataDbAdapter {
      *
      * @return Cursor containing all Cassette rows.
      */
-    public Cursor getAllCassettes() {
+    public Cursor getAll() {
         return db.query(CassetteDbContract.CassetteTable.TABLE_NAME, null, null, null, null, null, null);
     }
 
-    public Cursor getAllCassettesCreatedBetweenDatesDescending(long fromDate, long toDate) {
+    public Cursor getAllCreatedBetweenDates(long fromDate, long toDate) {
         String betweenSelectClause = CassetteDbContract.CassetteTable.COLUMN_NAME_DATE_TIME_OF_CREATION
                 + " BETWEEN " + fromDate + " AND " + toDate;
         String orderBy = "DESCENDING";
@@ -159,7 +159,7 @@ public class CassetteDataDbAdapter {
      * @param id Identifier of the Cassette row.
      * @return Cursor positioned on the first Cassette row. Null, if nothing was found.
      */
-    public Cursor getCassetteById(long id) {
+    public Cursor getById(long id) {
         Cursor cursor = this.db.query(true, CassetteDbContract.CassetteTable.TABLE_NAME, null,
                 CassetteDbContract.CassetteTable.COLUMN_NAME_ID + "=" + id, null, null, null, null, null);
 
@@ -185,8 +185,8 @@ public class CassetteDataDbAdapter {
      * @param dateTimeOfCompilation New date and time of compilation of updated Cassette.
      * @return Was anything updated.
      */
-    public boolean updateCassette(long id, String title, String description, int length, int numberOfRecordings,
-                                  int isCompiled, String compiledFilePath, long dateTimeOfCompilation) {
+    public boolean update(long id, String title, String description, int length, int numberOfRecordings,
+                          int isCompiled, String compiledFilePath, long dateTimeOfCompilation) {
 
         ContentValues values = new ContentValues();
 
@@ -210,11 +210,29 @@ public class CassetteDataDbAdapter {
      * @param id Identifier of the Cassette row.
      * @return Was any row deleted.
      */
-    public boolean deleteCassette(long id) {
+    public boolean delete(long id) {
         int recordsDeleted = this.db.delete(CassetteDbContract.CassetteTable.TABLE_NAME,
                 CassetteDbContract.CassetteTable.COLUMN_NAME_ID + "=" + id,
                 null);
         return recordsDeleted > 0;
+    }
+
+    /**
+     * Returns the number of rows contained in Cassette table.
+     * If something went wrong the method will return -1.
+     *
+     * @return Integer.
+     */
+    public int count() {
+        Cursor cursor = this.db.rawQuery("SELECT count(*) FROM " + CassetteDbContract.CassetteTable.TABLE_NAME, null);
+
+        if (cursor == null) {
+            return -1;
+        }
+        cursor.moveToFirst();
+        int result = cursor.getInt(0);
+        cursor.close();
+        return result;
     }
 
     //endregion Methods

@@ -25,7 +25,7 @@ public class DbCasseteDataStore implements CassetteDataStore {
                 description = cassetteEntity.descripition;
         long dateTimeOfCreation = cassetteEntity.dateTimeOfCreation;
 
-        long id = dbAdapter.createCassette(title, description, dateTimeOfCreation);
+        long id = dbAdapter.create(title, description, dateTimeOfCreation);
 
         //TODO: what to do when -1 is returned from create?
         //  1)  return null
@@ -39,13 +39,13 @@ public class DbCasseteDataStore implements CassetteDataStore {
 
     @Override
     public CassetteEntity get(long cassetteId) {
-        Cursor cursor = dbAdapter.getCassetteById(cassetteId);
+        Cursor cursor = dbAdapter.getById(cassetteId);
 
         if (cursor == null) {
             return null;
         }
 
-        CassetteEntity cassetteEntity = CassetteEntity.createCassetteEntityFromCursor(cursor);
+        CassetteEntity cassetteEntity = CassetteEntity.createFromCursor(cursor);
 
         cursor.close();
 
@@ -59,13 +59,13 @@ public class DbCasseteDataStore implements CassetteDataStore {
      */
     @Override
     public List<CassetteEntity> getAll() {
-        Cursor cursor = dbAdapter.getAllCassettes();
+        Cursor cursor = dbAdapter.getAll();
         return DbCasseteDataStore.getListOfCasseettesFromCursor(cursor);
     }
 
     @Override
     public List<CassetteEntity> getAllBetweenDates(long fromDate, long toDate) {
-        Cursor cursor = dbAdapter.getAllCassettesCreatedBetweenDatesDescending(fromDate, toDate);
+        Cursor cursor = dbAdapter.getAllCreatedBetweenDates(fromDate, toDate);
         return DbCasseteDataStore.getListOfCasseettesFromCursor(cursor);
     }
 
@@ -75,7 +75,7 @@ public class DbCasseteDataStore implements CassetteDataStore {
             return false;
         }
 
-        boolean wasSuccess = dbAdapter.updateCassette(cassetteEntity.id, cassetteEntity.title,
+        boolean wasSuccess = dbAdapter.update(cassetteEntity.id, cassetteEntity.title,
                 cassetteEntity.descripition, cassetteEntity.length, cassetteEntity.numberOfRecordings,
                 cassetteEntity.isCompiled, cassetteEntity.compiledFilePath, cassetteEntity.dateTimeOfCompilation);
 
@@ -92,7 +92,7 @@ public class DbCasseteDataStore implements CassetteDataStore {
 
     @Override
     public boolean delete(long id) {
-        boolean wasSuccess = dbAdapter.deleteCassette(id);
+        boolean wasSuccess = dbAdapter.delete(id);
         return wasSuccess;
     }
 
@@ -107,7 +107,7 @@ public class DbCasseteDataStore implements CassetteDataStore {
 
         CassetteEntity cassetteEntity;
         while (cursor.moveToNext()) {
-            cassetteEntity = CassetteEntity.createCassetteEntityFromCursor(cursor);
+            cassetteEntity = CassetteEntity.createFromCursor(cursor);
 
             if (cassetteEntity != null) {
                 cassetteEntityList.add(cassetteEntity);
