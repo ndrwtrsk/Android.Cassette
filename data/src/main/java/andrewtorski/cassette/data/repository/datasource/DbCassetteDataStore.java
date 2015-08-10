@@ -16,6 +16,7 @@ public class DbCassetteDataStore implements CassetteDataStore {
 
     public DbCassetteDataStore() {
         dbAdapter = CassetteDataDbAdapter.getInstance();
+        dbAdapter.open();
     }
 
 
@@ -60,13 +61,13 @@ public class DbCassetteDataStore implements CassetteDataStore {
     @Override
     public List<CassetteEntity> getAll() {
         Cursor cursor = dbAdapter.getAll();
-        return DbCassetteDataStore.getListOfCasseettesFromCursor(cursor);
+        return DbCassetteDataStore.getListOfCassettesFromCursor(cursor);
     }
 
     @Override
     public List<CassetteEntity> getAllBetweenDates(long fromDate, long toDate) {
         Cursor cursor = dbAdapter.getAllCreatedBetweenDates(fromDate, toDate);
-        return DbCassetteDataStore.getListOfCasseettesFromCursor(cursor);
+        return DbCassetteDataStore.getListOfCassettesFromCursor(cursor);
     }
 
     @Override
@@ -96,7 +97,15 @@ public class DbCassetteDataStore implements CassetteDataStore {
         return wasSuccess;
     }
 
-    private static List<CassetteEntity> getListOfCasseettesFromCursor(Cursor cursor) {
+    /**
+     * Returns the number of entities present in the data store.
+     */
+    @Override
+    public int count() {
+        return dbAdapter.count();
+    }
+
+    private static List<CassetteEntity> getListOfCassettesFromCursor(Cursor cursor) {
         //  LinkedList is used here, because indexing operation is completely out of our interests
         //  right now. ArrayList would prove to be slower here, as it has to be extended as it's
         //  capacity changes.

@@ -62,4 +62,9 @@ public interface CassetteDataStore {
      * @return Was this operation successful.
      */
     boolean delete(long id);
+
+    /**
+     * Returns the number of entities present in the data store.
+     */
+    int count();
 }
