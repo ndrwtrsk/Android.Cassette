@@ -37,9 +37,9 @@ public class Cassette {
 
     /**
      * Total length of all Recordings.
-     * Express in seconds.
+     * Expressed in milliseconds.
      */
-    private int lengthInMilliseconds;
+    private int length;
 
     /**
      * Was this Cassette compiled to one File.
@@ -87,25 +87,18 @@ public class Cassette {
      * Constructor which should be used when Mapping from DAL Cassette Entity to Domain Cassette.
      */
     public Cassette(long id, String title, String description,
-                    Date dateTimeOfCreation, int lengthInMilliseconds, boolean isCompiled,
+                    Date dateTimeOfCreation, int length, boolean isCompiled,
                     String compiledFilePath, Date dateTimeOfCompilation,
-                    int numberOfRecordings, List<Recording> recordings) {
+                    int numberOfRecordings) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.dateTimeOfCreation = dateTimeOfCreation;
-        this.lengthInMilliseconds = lengthInMilliseconds;
+        this.length = length;
         this.isCompiled = isCompiled;
         this.compiledFilePath = compiledFilePath;
         this.dateTimeOfCompilation = dateTimeOfCompilation;
         this.numberOfRecordings = numberOfRecordings;
-        this.recordings = recordings;
-
-        if (this.isCompiled) {
-            this.compiledFile = new File(this.compiledFilePath);
-        } else {
-            this.compiledFile = null;
-        }
     }
 
     /**
@@ -158,20 +151,16 @@ public class Cassette {
         return dateTimeOfCreation;
     }
 
-    public void setDateTimeOfCreation(Date dateTimeOfCreation) {
-        this.dateTimeOfCreation = dateTimeOfCreation;
+    public int getLength() {
+        return length;
     }
 
-    public int getLengthInMilliseconds() {
-        return lengthInMilliseconds;
-    }
-
-    public void setLengthInMilliseconds(int lengthInMilliseconds) {
-        this.lengthInMilliseconds = lengthInMilliseconds;
+    public void setLength(int length) {
+        this.length = length;
     }
 
     public int getLengthInSeconds() {
-        return this.lengthInMilliseconds / 1000;
+        return this.length / 1000;
     }
 
     public boolean isCompiled() {

@@ -54,7 +54,7 @@ public class CassetteDataRepository implements CassetteRepository {
      * @return Reference to Cassette or null if nothing was found.
      */
     @Override
-    public Cassette get(int cassetteId) {
+    public Cassette get(long cassetteId) {
         CassetteEntity cassetteEntity = cassetteDataStore.get(cassetteId);
 
         if (cassetteEntity == null) {
@@ -152,5 +152,13 @@ public class CassetteDataRepository implements CassetteRepository {
         boolean wasSuccess = cassetteDataStore.delete(id);
 
         return wasSuccess;
+    }
+
+    /**
+     * Return the number of Cassettes persisted.
+     */
+    @Override
+    public int count() {
+        return cassetteDataStore.count();
     }
 }

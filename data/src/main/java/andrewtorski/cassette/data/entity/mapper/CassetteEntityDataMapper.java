@@ -42,7 +42,7 @@ public class CassetteEntityDataMapper {
         cassette = new Cassette(cassetteEntity.id, cassetteEntity.title,
                 cassetteEntity.descripition, dateTimeOfCreation, cassetteEntity.length, isCompiled,
                 cassetteEntity.compiledFilePath, dateTimeOfCompilation,
-                cassetteEntity.numberOfRecordings, null);
+                cassetteEntity.numberOfRecordings);
 
         /* NOTE:
             This transformation does not include instantiating a collection of Recordings inside.
@@ -61,7 +61,7 @@ public class CassetteEntityDataMapper {
         int isCompiled = cassette.isCompiled() ? 1 : 0;
 
         CassetteEntity cassetteEntity = new CassetteEntity(cassette.getId(), cassette.getTitle(),
-                cassette.getDescription(), dateTimeOfCreation, cassette.getLengthInMilliseconds(),
+                cassette.getDescription(), dateTimeOfCreation, cassette.getLength(),
                 cassette.getNumberOfRecordings(), isCompiled, cassette.getCompiledFilePath(), dateTimeOfCompilation);
 
         return cassetteEntity;

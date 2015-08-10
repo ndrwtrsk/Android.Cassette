@@ -14,18 +14,16 @@ public interface CassetteRepository {
 
     /**
      * Persists provided Cassette..
-     *
      * @param cassette Cassette to be persisted.
      */
     Cassette create(Cassette cassette);
 
     /**
      * Retrieves a Cassette using the provided id.
-     *
      * @param cassetteId Id of the Cassette.
      * @return Reference to Cassette or null if nothing was found.
      */
-    Cassette get(final int cassetteId);
+    Cassette get(final long cassetteId);
 
     /**
      * Returns a list of all Cassettes present.
@@ -70,5 +68,10 @@ public interface CassetteRepository {
      * @return Was deletion successful.
      */
     boolean delete(long id);
+
+    /**
+     * Return the number of Cassettes persisted.
+     */
+    int count();
 
 }
