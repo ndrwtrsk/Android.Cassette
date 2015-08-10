@@ -1,1 +1,1 @@
-include ':app', ':data', ':domain', ':global'
+include ':app', ':data', ':domain', ':global', ':data-test'

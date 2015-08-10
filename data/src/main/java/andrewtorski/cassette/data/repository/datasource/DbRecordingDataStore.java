@@ -114,6 +114,8 @@ public class DbRecordingDataStore implements RecordingDataStore {
             }
         }
 
+        cursor.close();
+
         return recordingEntityList;
     }
 }

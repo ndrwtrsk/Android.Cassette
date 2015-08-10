@@ -1,4 +1,4 @@
-package andrewtorski.global;
+package andrewtorski.data_test;
 
 import android.test.AndroidTestCase;
 
@@ -7,11 +7,4 @@ import android.test.AndroidTestCase;
  */
 public class ApplicationTest extends AndroidTestCase {
 
-    public void test() {
-        assertTrue(true);
-    }
-
-    public void test1() {
-        assertTrue(false);
-    }
 }

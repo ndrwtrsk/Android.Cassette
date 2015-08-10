@@ -10,7 +10,6 @@ public final class GlobalValues {
 
     /**
      * Current context in the application scope.
-     * <p/>
      * The main reasoning for this field here is that it provides DbOpenHelper with Context which is
      * required to instantiate DbOpenHelper and subsequently open a connection to the SQLite
      * database.
@@ -23,11 +22,12 @@ public final class GlobalValues {
     private GlobalValues() {
     }
 
-
+    @SuppressWarnings("unchecked")
     public static void setContext(Context context) {
         context = context;
     }
 
+    @SuppressWarnings("unchecked")
     public static Context getContext() {
         return context;
     }

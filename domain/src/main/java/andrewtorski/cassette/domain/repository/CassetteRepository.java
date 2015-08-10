@@ -13,7 +13,7 @@ import andrewtorski.cassette.domain.entity.Cassette;
 public interface CassetteRepository {
 
     /**
-     * Creates a Cassette using title and description.
+     * Persists provided Cassette..
      *
      * @param cassette Cassette to be persisted.
      */

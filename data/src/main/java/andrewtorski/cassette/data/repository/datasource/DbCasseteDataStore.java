@@ -47,6 +47,8 @@ public class DbCasseteDataStore implements CassetteDataStore {
 
         CassetteEntity cassetteEntity = CassetteEntity.createCassetteEntityFromCursor(cursor);
 
+        cursor.close();
+
         return cassetteEntity;
     }
 
@@ -57,44 +59,14 @@ public class DbCasseteDataStore implements CassetteDataStore {
      */
     @Override
     public List<CassetteEntity> getAll() {
-        //  LinkedList is used here, because indexing operation is completely out of our interests
-        //  right now. ArrayList would prove to be slower here, as it has to be extended as it's
-        //  capacity changes.
-        LinkedList<CassetteEntity> cassetteEntityLinkedList = new LinkedList<>();
-
         Cursor cursor = dbAdapter.getAllCassettes();
-
-        if (cursor == null) {
-            return cassetteEntityLinkedList;
-        }
-
-        CassetteEntity cassetteEntity;
-        for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
-            cassetteEntity = CassetteEntity.createCassetteEntityFromCursor(cursor);
-            cassetteEntityLinkedList.add(cassetteEntity);
-        }
-
-        return cassetteEntityLinkedList;
+        return DbCasseteDataStore.getListOfCasseettesFromCursor(cursor);
     }
 
     @Override
     public List<CassetteEntity> getAllBetweenDates(long fromDate, long toDate) {
-
-        List<CassetteEntity> cassetteEntityList = new LinkedList<>();
-
         Cursor cursor = dbAdapter.getAllCassettesCreatedBetweenDatesDescending(fromDate, toDate);
-
-        if (cursor == null) {
-            return cassetteEntityList;
-        }
-
-        CassetteEntity cassetteEntity;
-        while (cursor.moveToNext()) {
-            cassetteEntity = CassetteEntity.createCassetteEntityFromCursor(cursor);
-            cassetteEntityList.add(cassetteEntity);
-        }
-
-        return cassetteEntityList;
+        return DbCasseteDataStore.getListOfCasseettesFromCursor(cursor);
     }
 
     @Override
@@ -122,5 +94,26 @@ public class DbCasseteDataStore implements CassetteDataStore {
     public boolean delete(long id) {
         boolean wasSuccess = dbAdapter.deleteCassette(id);
         return wasSuccess;
+    }
+
+    private static List<CassetteEntity> getListOfCasseettesFromCursor(Cursor cursor) {
+        //  LinkedList is used here, because indexing operation is completely out of our interests
+        //  right now. ArrayList would prove to be slower here, as it has to be extended as it's
+        //  capacity changes.
+        List<CassetteEntity> cassetteEntityList = new LinkedList<>();
+        if (cursor == null) {
+            return cassetteEntityList;
+        }
+
+        CassetteEntity cassetteEntity;
+        while (cursor.moveToNext()) {
+            cassetteEntity = CassetteEntity.createCassetteEntityFromCursor(cursor);
+
+            if (cassetteEntity != null) {
+                cassetteEntityList.add(cassetteEntity);
+            }
+        }
+        cursor.close();
+        return cassetteEntityList;
     }
 }

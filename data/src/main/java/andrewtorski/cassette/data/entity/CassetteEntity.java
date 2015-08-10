@@ -2,8 +2,6 @@ package andrewtorski.cassette.data.entity;
 
 import android.database.Cursor;
 
-import com.activeandroid.Model;
-
 import java.util.Date;
 
 import andrewtorski.cassette.data.db.schema.CassetteDbContract;
@@ -11,7 +9,7 @@ import andrewtorski.cassette.data.db.schema.CassetteDbContract;
 /**
  * Database entity for the Cassette.
  */
-public class CassetteEntity extends Model {
+public class CassetteEntity {
 
     //region Public Fields
 
