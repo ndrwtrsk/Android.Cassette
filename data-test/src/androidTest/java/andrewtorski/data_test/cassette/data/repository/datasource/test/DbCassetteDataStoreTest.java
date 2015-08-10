@@ -127,6 +127,28 @@ public class DbCassetteDataStoreTest extends AndroidTestCase {
         assertEquals(numberOfRecordings, newCassetteEntity.numberOfRecordings);
     }
 
+    public void test_update_EntityThatDoesntExist() {
+        CassetteEntity cassetteEntity = getSimpleCassette();
+        long id = cassetteEntity.id;
+        String newTitle = "newTitle", newDescripition = "newDesc", path = "path";
+        int length = 12, numberOfRecordings = 13, isCompiled = 1;
+        long dateCompilation = 13000;
+
+        //  Act
+        cassetteEntity.title = newTitle;
+        cassetteEntity.descripition = newDescripition;
+        cassetteEntity.compiledFilePath = path;
+        cassetteEntity.isCompiled = isCompiled;
+        cassetteEntity.length = length;
+        cassetteEntity.numberOfRecordings = numberOfRecordings;
+        cassetteEntity.dateTimeOfCompilation = dateCompilation;
+
+        boolean updateWasSuccessful = dataStore.update(cassetteEntity);
+
+        //  Assert
+        assertFalse("Update was successful", updateWasSuccessful);
+    }
+
     /**
      * Persist simple cassette, delete it, check count.
      */
@@ -151,6 +173,17 @@ public class DbCassetteDataStoreTest extends AndroidTestCase {
         assertEquals(1, countAfterFirstDelete);
         assertTrue(wasSecondDeleteSuccessful);
         assertEquals(0, countAfterSecondDelete);
+    }
+
+    public void test_delete_EntityThatDoesntExist() {
+        //  Arrange
+        long id = 23;
+
+        //  Act
+        boolean deleteWasSuccessful = dataStore.delete(23);
+
+        //  Assert
+        assertFalse("Delete was successful", deleteWasSuccessful);
     }
 
     public void test_willGetAllReturnEmptyCollection_If_NoEntitesArePresent() {

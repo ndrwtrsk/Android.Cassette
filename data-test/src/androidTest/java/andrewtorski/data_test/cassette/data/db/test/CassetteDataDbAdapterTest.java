@@ -5,6 +5,7 @@ import android.test.AndroidTestCase;
 import android.test.RenamingDelegatingContext;
 
 import java.util.Arrays;
+import java.util.Date;
 
 import andrewtorski.cassette.data.db.CassetteDataDbAdapter;
 import andrewtorski.cassette.data.entity.CassetteEntity;
@@ -12,11 +13,11 @@ import andrewtorski.global.GlobalValues;
 
 /**
  * Tests functionalities provided by the CassetteDataDbAdapter.
- *
+ * <p/>
  * <h3>Key takeaways and lessons.</h3>
  * <ol>
- *     <li>#setUp() is executed before every test method.</li>
- *     <li>#setUp() recreates database before every test method.</li>
+ * <li>#setUp() is executed before every test method.</li>
+ * <li>#setUp() recreates database before every test method.</li>
  * </ol>
  */
 public class CassetteDataDbAdapterTest extends AndroidTestCase {
@@ -231,6 +232,26 @@ public class CassetteDataDbAdapterTest extends AndroidTestCase {
     }
 
     /**
+     * Try updating an entity that doesn't exist. It should return false.
+     */
+    public void test_update_cassetteThatDoesntExist() {
+        //  Arrange
+        String title = "title", description = "desc";
+        long date = 12000;
+
+        long id = 23;
+
+        CassetteEntity cassetteEntity = new CassetteEntity(title, description, new Date());
+        cassetteEntity.id = id;
+        //  Act
+        boolean wasSuccess = testedAdapter.update(id, "newTitle", "newDescription", 12, 12, 1, "path",
+                13000);
+
+        //  Assert
+        assertFalse("Update was successful", wasSuccess);
+    }
+
+    /**
      * Persist basic entity, delete it, check if it was successful, then query for the number of rows
      * and assert that the count is equal to 0.
      */
@@ -253,6 +274,15 @@ public class CassetteDataDbAdapterTest extends AndroidTestCase {
         //  Assert
         assertTrue(wasDeleteSuccessful);
         assertEquals(0, count);
+    }
+
+    public void test_deleting_EntityThatDoesntExist() {
+        //  Arrange
+        long id = 23;
+        //  Act
+        boolean wasSuccess = testedAdapter.delete(id);
+        //  Assert
+        assertFalse("Update was successful", wasSuccess);
     }
 
 }

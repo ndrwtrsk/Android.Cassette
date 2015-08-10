@@ -149,4 +149,5 @@ public class CassetteDataRepositoryTest extends AndroidTestCase {
         assertTrue(wasSecondDeleteSuccessful);
         assertEquals(0, countAfterSecondDelete);
     }
+
 }
