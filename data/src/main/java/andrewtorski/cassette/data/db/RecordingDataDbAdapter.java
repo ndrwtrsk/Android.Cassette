@@ -30,7 +30,7 @@ public class RecordingDataDbAdapter {
     private static RecordingDataDbAdapter instance;
 
     public int count() {
-        Cursor cursor = this.db.rawQuery("SELECT count(*) FROM " + CassetteDbContract.CassetteTable.TABLE_NAME, null);
+        Cursor cursor = this.db.rawQuery("SELECT count(*) FROM " + CassetteDbContract.RecordingTable.TABLE_NAME, null);
 
         if (cursor == null) {
             return -1;
