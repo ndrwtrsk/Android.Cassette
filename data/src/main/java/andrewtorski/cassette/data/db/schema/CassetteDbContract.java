@@ -133,7 +133,12 @@ public class CassetteDbContract {
             List<ColumnTypeAndName> columnTypesAndNames = new LinkedList<>();
 
             columnTypesAndNames.add(COLUMN_ID);
-            columnTypesAndNames.add(COLUMN_CASSETTE_ID);
+            /*
+            Following column is commented out because we're going to be specifiying this column
+            individually as it we require this column to be also NOT NULL.
+            THIS HAS TO BE DONE in #getCreateTableStatement.
+             */
+            //columnTypesAndNames.add(COLUMN_CASSETTE_ID);
             columnTypesAndNames.add(COLUMN_TITLE);
             columnTypesAndNames.add(COLUMN_DESCRIPTION);
             columnTypesAndNames.add(COLUMN_DATE_TIME_OF_RECORDING);
@@ -153,11 +158,13 @@ public class CassetteDbContract {
                 sb.append(column.getColumnCreationStatement(COMMA_SEP));
             }
 
+            sb.append(COLUMN_CASSETTE_ID.getColumnCreationStatement() + " NOT NULL,");
+
             sb.append("FOREIGN KEY(");
             sb.append(COLUMN_NAME_CASSETTE_ID);
             sb.append(") REFERENCES ");
             sb.append(CassetteTable.TABLE_NAME);
-            sb.append("(" + CassetteTable.COLUMN_NAME_ID + "))");
+            sb.append("(" + CassetteTable.COLUMN_NAME_ID + ") ON DELETE CASCADE)");
 
             return sb.toString();
         }

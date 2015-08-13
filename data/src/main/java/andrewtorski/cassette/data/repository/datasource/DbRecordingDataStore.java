@@ -27,7 +27,7 @@ public class DbRecordingDataStore implements RecordingDataStore {
         long dateTimeOfRecording = recordingEntity.dateTimeOfRecording;
         String filePath = recordingEntity.audioFilePath;
         int length = recordingEntity.length;
-        long id = dbAdapter.createRecording(cassetteId, sequenceInCassette, dateTimeOfRecording, filePath, length);
+        long id = dbAdapter.create(cassetteId, sequenceInCassette, dateTimeOfRecording, filePath, length);
 
         recordingEntity.id = id;
 
@@ -36,48 +36,48 @@ public class DbRecordingDataStore implements RecordingDataStore {
 
     @Override
     public RecordingEntity get(long recordingId) {
-        Cursor cursor = dbAdapter.getRecordingById(recordingId);
+        Cursor cursor = dbAdapter.getById(recordingId);
 
         if (cursor == null) {
             return null;
         }
 
-        RecordingEntity recordingEntity = RecordingEntity.createRecordingEntityFromCursor(cursor);
+        RecordingEntity recordingEntity = RecordingEntity.createFromCursor(cursor);
 
         return recordingEntity;
     }
 
     @Override
     public List<RecordingEntity> getAll() {
-        Cursor cursor = dbAdapter.getAllRecordings();
+        Cursor cursor = dbAdapter.getAll();
 
         return DbRecordingDataStore.getListOfRecordingsFromCursor(cursor);
     }
 
     @Override
     public List<RecordingEntity> getAllForCassette(long cassetteId) {
-        Cursor cursor = dbAdapter.getAllRecordingsWhichBelongToCassette(cassetteId);
+        Cursor cursor = dbAdapter.getAllForCassette(cassetteId);
 
         return DbRecordingDataStore.getListOfRecordingsFromCursor(cursor);
     }
 
     @Override
     public List<RecordingEntity> getAllBetweenDates(long fromDate, long toDate) {
-        Cursor cursor = dbAdapter.getAllRecordingsBetweenDatesDescending(fromDate, toDate);
+        Cursor cursor = dbAdapter.getAllBetween(fromDate, toDate);
 
         return DbRecordingDataStore.getListOfRecordingsFromCursor(cursor);
     }
 
     @Override
     public List<RecordingEntity> getAllBetweenDatesForCassette(long cassetteId, long fromDate, long toDate) {
-        Cursor cursor = dbAdapter.getAllRecordingsBetweenDatesForCassetteDescending(cassetteId, fromDate, toDate);
+        Cursor cursor = dbAdapter.getAllForCassetteBetweenDates(cassetteId, fromDate, toDate);
 
         return DbRecordingDataStore.getListOfRecordingsFromCursor(cursor);
     }
 
     @Override
     public List<RecordingEntity> getAllWithTitleOrDescriptionLike(String searchClause) {
-        Cursor cursor = dbAdapter.getAllRecordingsWithTitleAndDescriptionLike(searchClause);
+        Cursor cursor = dbAdapter.getAllTitleDescriptionLike(searchClause);
 
         return DbRecordingDataStore.getListOfRecordingsFromCursor(cursor);
     }
@@ -89,14 +89,14 @@ public class DbRecordingDataStore implements RecordingDataStore {
         String title = recordingEntity.title,
                 description = recordingEntity.description;
 
-        boolean wasSuccess = dbAdapter.updateRecording(id, title, description);
+        boolean wasSuccess = dbAdapter.update(id, title, description);
 
         return wasSuccess;
     }
 
     @Override
     public boolean delete(long id) {
-        return dbAdapter.deleteRecording(id);
+        return dbAdapter.delete(id);
     }
 
     private static List<RecordingEntity> getListOfRecordingsFromCursor(Cursor cursor) {
@@ -108,7 +108,7 @@ public class DbRecordingDataStore implements RecordingDataStore {
 
         RecordingEntity recordingEntity;
         while (cursor.moveToNext()) {
-            recordingEntity = RecordingEntity.createRecordingEntityFromCursor(cursor);
+            recordingEntity = RecordingEntity.createFromCursor(cursor);
             if (recordingEntity != null) {
                 recordingEntityList.add(recordingEntity);
             }

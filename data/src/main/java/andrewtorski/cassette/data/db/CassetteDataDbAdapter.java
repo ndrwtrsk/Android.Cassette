@@ -77,6 +77,7 @@ public class CassetteDataDbAdapter {
     public CassetteDataDbAdapter open() {
         this.dbHelper = new DatabaseHelper(this.context);
         this.db = this.dbHelper.getWritableDatabase();
+        this.db.setForeignKeyConstraintsEnabled(true);
         return this;
     }
 

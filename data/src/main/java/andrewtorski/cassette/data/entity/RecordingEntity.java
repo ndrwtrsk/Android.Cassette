@@ -86,6 +86,39 @@ public class RecordingEntity {
 
     //endregion Constructors
 
+    //region Methods
+
+    /**
+     * Returns a string containing a concise, human-readable description of this
+     * object. Subclasses are encouraged to override this method and provide an
+     * implementation that takes into account the object's type and data. The
+     * default implementation is equivalent to the following expression:
+     * <pre>
+     *   getClass().getName() + '@' + Integer.toHexString(hashCode())</pre>
+     * <p>See <a href="{@docRoot}reference/java/lang/Object.html#writing_toString">Writing a useful
+     * {@code toString} method</a>
+     * if you intend implementing your own {@code toString} method.
+     *
+     * @return a printable representation of this object.
+     */
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("\n*****RECORDING*****");
+        sb.append("\nid = ").append(id);
+        sb.append("\nsequence = ").append(sequenceInTheCassette);
+        sb.append("\ncassetteId = ").append(cassetteId);
+        sb.append("\ntitle = ").append(title);
+        sb.append("\ndescription = ").append(description);
+        sb.append("\naudioFilePath = ").append(audioFilePath);
+        sb.append("\ndateTimeOfRecording= ").append(dateTimeOfRecording);
+
+        return sb.append("\n").toString();
+    }
+
+
+    //endregion Methods
+
 
     //region Static Methods
 
@@ -96,7 +129,7 @@ public class RecordingEntity {
      * @param cursor Cursor which holds information about this
      * @return RecordingEntity created from data in Cursor.
      */
-    public static RecordingEntity createRecordingEntityFromCursor(Cursor cursor) {
+    public static RecordingEntity createFromCursor(Cursor cursor) {
         if (cursor == null) {
             return null;
         }
@@ -120,6 +153,9 @@ public class RecordingEntity {
         String title = cursor.getString(titleColumnIndex),
                 description = cursor.getString(descriptionColumnIndex),
                 audioFilePath = cursor.getString(audioFilePathColumnIndex);
+
+        title = title == null ? "" : title;
+        description = description == null ? "" : description;
 
         RecordingEntity result = new RecordingEntity(id, cassetteId, title, description, dateTimeOfRecording,
                 length, audioFilePath, sequenceInTheCassette);
