@@ -21,6 +21,14 @@ public interface RecordingRepository {
     Recording create(Recording recording);
 
     /**
+     * Retrivies a Recording of specified id.
+     * Returns null if no Recording was found.
+     * @param id Identifier of the searched Recording.
+     * @return Reference to Recording or null if nothing was found.
+     */
+    Recording get(long id);
+
+    /**
      * Updates the provided Recording.
      *
      * @param recording Recoridng to update.
@@ -43,6 +51,12 @@ public interface RecordingRepository {
      * @return Was deletion successful.
      */
     boolean delete(long id);
+
+    /**
+     * Retrieves the whole collection of Recordings.
+     * @return List of Recordings.
+     */
+    List<Recording> getAll();
 
     /**
      * Returns a collection of Recordings which are associated with the specified Cassette.
@@ -79,4 +93,9 @@ public interface RecordingRepository {
      * @return List of Recordings.
      */
     List<Recording> getAllWhichTitleOrDescriptionIsLike(String searchClause);
+
+    /**
+     * Returns the number of Recordings present.
+     */
+    int count();
 }

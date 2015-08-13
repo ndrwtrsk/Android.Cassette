@@ -47,12 +47,17 @@ public class RecordingDataRepository implements RecordingRepository {
     }
 
     @Override
+    public Recording get(long id) {
+        RecordingEntity recordingEntity = dataStore.get(id);
+
+        return mapper.transfrom(recordingEntity);
+    }
+
+    @Override
     public boolean update(Recording recording) {
         RecordingEntity recordingEntity = mapper.transform(recording);
 
-        boolean wasSuccess = dataStore.update(recordingEntity);
-
-        return wasSuccess;
+        return dataStore.update(recordingEntity);
     }
 
     @Override
@@ -63,6 +68,13 @@ public class RecordingDataRepository implements RecordingRepository {
     @Override
     public boolean delete(long id) {
         return dataStore.delete(id);
+    }
+
+    @Override
+    public List<Recording> getAll() {
+        List<RecordingEntity> recordingEntities = dataStore.getAll();
+
+        return mapper.transform(recordingEntities);
     }
 
     @Override
@@ -105,5 +117,10 @@ public class RecordingDataRepository implements RecordingRepository {
         List<RecordingEntity> recordingEntityList = dataStore.getAllWithTitleOrDescriptionLike(searchClause);
 
         return mapper.transform(recordingEntityList);
+    }
+
+    @Override
+    public int count() {
+        return dataStore.count();
     }
 }

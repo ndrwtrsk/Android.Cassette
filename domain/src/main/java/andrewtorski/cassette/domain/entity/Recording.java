@@ -93,7 +93,7 @@ public class Recording {
         this.lengthInMiliseconds = lengthInMilliseconds;
         this.audioFilePath = audioFilePath;
         this.sequenceInTheCassette = sequenceInTheCassette;
-        this.cassetteId = cassette.getId();
+        this.cassetteId = cassetteId;
     }
 
     /**
@@ -113,16 +113,24 @@ public class Recording {
 
     //region Getters
 
-    public long getId() {
-        return id;
-    }
-
     public String getTitle() {
         return title;
     }
 
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
     public String getDescripition() {
         return descripition;
+    }
+
+    public void setDescripition(String descripition) {
+        this.descripition = descripition;
+    }
+
+    public long getId() {
+        return id;
     }
 
     public Date getDateTimeOfRecording() {
@@ -152,7 +160,6 @@ public class Recording {
     public Cassette getCassette() {
         return cassette;
     }
-
 
     //endregion Getters
 }

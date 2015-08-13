@@ -67,9 +67,10 @@ public class RecordingEntityDataMapper {
             return null;
         }
 
-        RecordingEntity recordingEntity = new RecordingEntity(recording.getCassetteId(),
-                recording.getSequenceInTheCassette(), recording.getDateTimeOfRecording(), recording.getAudioFilePath(),
-                recording.getLengthInMiliseconds());
+        RecordingEntity recordingEntity = new RecordingEntity(recording.getId(),
+                recording.getCassetteId(), recording.getTitle(), recording.getDescripition(),
+                recording.getDateTimeOfRecording().getTime(), recording.getLengthInMiliseconds(),
+                recording.getAudioFilePath(), recording.getSequenceInTheCassette());
 
         return recordingEntity;
     }
