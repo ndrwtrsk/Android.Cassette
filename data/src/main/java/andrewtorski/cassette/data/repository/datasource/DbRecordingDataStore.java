@@ -17,6 +17,7 @@ public class DbRecordingDataStore implements RecordingDataStore {
 
     public DbRecordingDataStore() {
         dbAdapter = RecordingDataDbAdapter.getInstance();
+        dbAdapter.open();
     }
 
     @Override
@@ -117,5 +118,9 @@ public class DbRecordingDataStore implements RecordingDataStore {
         cursor.close();
 
         return recordingEntityList;
+    }
+
+    public int count() {
+        return dbAdapter.count();
     }
 }

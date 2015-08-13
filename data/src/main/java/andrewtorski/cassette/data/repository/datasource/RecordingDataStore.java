@@ -78,4 +78,9 @@ public interface RecordingDataStore {
      * @return Was deletion successful.
      */
     boolean delete(long id);
+
+    /**
+     * Returns the number of Recordings stored.
+     */
+    int count();
 }
