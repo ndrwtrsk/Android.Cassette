@@ -12,14 +12,18 @@ import andrewtorski.cassette.domain.entity.Cassette;
  */
 public interface CassetteRepository {
 
+    //region Method stubs
+
     /**
      * Persists provided Cassette..
+     *
      * @param cassette Cassette to be persisted.
      */
     Cassette create(Cassette cassette);
 
     /**
      * Retrieves a Cassette using the provided id.
+     *
      * @param cassetteId Id of the Cassette.
      * @return Reference to Cassette or null if nothing was found.
      */
@@ -73,5 +77,8 @@ public interface CassetteRepository {
      * Return the number of Cassettes persisted.
      */
     int count();
+
+    //endregion Method stubs
+
 
 }

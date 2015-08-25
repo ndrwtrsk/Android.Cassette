@@ -1,22 +1,15 @@
-package andrewtorski.cassette.domain.entity;
+package andrewtorski.cassette.domain.entity.test;
 
 import junit.framework.Assert;
 
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertNotNull;
-import static junit.framework.Assert.assertNull;
-import static junit.framework.TestCase.assertEquals;
+import andrewtorski.cassette.domain.entity.Cassette;
 
 public class CassetteUnitTest {
 
-    @Test
-    public void Test_Constructors(){
+    /*@Test
+    public void Test_Constructors() {
         //  Arrange
         Cassette cassetteFromData;
         Cassette cassetteFromPresentation;
@@ -28,9 +21,9 @@ public class CassetteUnitTest {
         boolean bool1 = false;
         //  Act
 
-        cassetteFromData = new Cassette(number1, title, description,
+        *//*cassetteFromData = new Cassette(number1, title, description,
                 date, number2, bool1, path,
-                date, number3, new ArrayList<Recording>());
+                date, number3, new ArrayList<Recording>());*//*
 
         cassetteFromPresentation = new Cassette(title, description);
 
@@ -56,10 +49,10 @@ public class CassetteUnitTest {
         assertNull("Date and time of compilation of Cassette is not null", cassetteFromPresentation.getDateTimeOfCompilation());
         assertNull("Recordings inside Cassette from presentation is not null", cassetteFromPresentation.getRecordings());
         assertFalse("Cassette from presentation is compiled.", cassetteFromPresentation.isCompiled());
-    }
+    }*/
 
     @Test
-    public void Test_incrementAndReturnNumberOfRecordings_Method(){
+    public void Test_incrementAndReturnNumberOfRecordings_Method() {
         //  Arrange
         Cassette cassette = new Cassette("Hello", "World");
         int firstCallResult, secondCallResult, thirdCallResut;
@@ -68,7 +61,7 @@ public class CassetteUnitTest {
         //  first call to incrementAndReturnNumberOfRecordings() should result in return of 1.
         firstCallResult = cassette.incrementAndReturnNumberOfRecordings();
         //  second call to incrementAndReturnNumberOfRecordings() should result in return of 1.
-        secondCallResult= cassette.incrementAndReturnNumberOfRecordings();
+        secondCallResult = cassette.incrementAndReturnNumberOfRecordings();
         //  third call to incrementAndReturnNumberOfRecordings() should result in return of 1.
         thirdCallResut = cassette.incrementAndReturnNumberOfRecordings();
 

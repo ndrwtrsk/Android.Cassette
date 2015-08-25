@@ -7,6 +7,7 @@ import java.util.List;
 import andrewtorski.cassette.data.entity.CassetteEntity;
 import andrewtorski.cassette.data.entity.mapper.CassetteEntityDataMapper;
 import andrewtorski.cassette.data.repository.datasource.CassetteDataStore;
+import andrewtorski.cassette.data.repository.datasource.DbCassetteDataStore;
 import andrewtorski.cassette.domain.entity.Cassette;
 import andrewtorski.cassette.domain.repository.CassetteRepository;
 
@@ -19,14 +20,44 @@ import andrewtorski.cassette.domain.repository.CassetteRepository;
  */
 public class CassetteDataRepository implements CassetteRepository {
 
+    //region Private fields
+
+    /**
+     * DataStore used to access persistence layer.
+     */
     private CassetteDataStore cassetteDataStore;
 
-    private CassetteEntityDataMapper mapper;
+    /**
+     * Mapper object used to transform between Cassette and CassetteEntity.
+     */
+    private CassetteEntityDataMapper mapper = new CassetteEntityDataMapper();
 
+    //endregion Private fields
+
+    //region Constructors
+
+    /**
+     * Initializes a new instance of the CassetteDataRepository class using provided
+     * {@link andrewtorski.cassette.data.repository.datasource.CassetteDataStore} to access data.
+     *
+     * @param cassetteDataStore CassetteDataStore which will be used by initialized Repository to
+     *                          access data.
+     */
     public CassetteDataRepository(CassetteDataStore cassetteDataStore) {
         this.cassetteDataStore = cassetteDataStore;
-        mapper = new CassetteEntityDataMapper();
     }
+
+    /**
+     * Initializes a new instance of the CassetteDataRepository class with it's CassetteDataStore
+     * implicitly set to DbCassetteStore which utilizes SQLite database to persist and retrieve data.
+     */
+    public CassetteDataRepository() {
+        this.cassetteDataStore = new DbCassetteDataStore();
+    }
+
+    //endregion Constructors
+
+    //region CassetteRepository implemented methods
 
     /**
      * Creates a Cassette using title and description.
@@ -161,4 +192,6 @@ public class CassetteDataRepository implements CassetteRepository {
     public int count() {
         return cassetteDataStore.count();
     }
+
+    //endregion CassetteRepository implemented methods
 }

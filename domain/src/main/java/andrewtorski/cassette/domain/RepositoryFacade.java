@@ -2,6 +2,9 @@ package andrewtorski.cassette.domain;
 
 import java.util.List;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import andrewtorski.cassette.domain.entity.Cassette;
 import andrewtorski.cassette.domain.entity.Recording;
 import andrewtorski.cassette.domain.repository.CassetteRepository;
@@ -11,16 +14,44 @@ import andrewtorski.cassette.domain.repository.RecordingRepository;
  * Provides public access to individual repositories and exposes operations which require two
  * repositories to finish. (like populate recording list inside cassette).
  */
+@Singleton
 public class RepositoryFacade {
 
+    //region Private fields
+
+    public final String TAG = "REP_FACA";
+
+    /**
+     * Cassette repository which provides access to persistence(CRUD) related operations on Cassettes.
+     */
     private CassetteRepository cassetteRepository;
+
+    /**
+     * Recording repository which provides access to persistence(CRUD) related operations on Recordings.
+     */
     private RecordingRepository recordingRepository;
 
+    //endregion Private fields
+
+    //region Constructor
+
+    /**
+     * Initializes a new instance of the RepositoryFacade with provided
+     * {@link andrewtorski.cassette.domain.repository.CassetteRepository} and
+     * {@link andrewtorski.cassette.domain.repository.RecordingRepository}
+     * which will enable newly created object with access to persistence related operations on
+     * respective business objects.
+     *
+     * @param cassetteRepository  Recordings repository.
+     * @param recordingRepository Cassette repository.
+     */
+    @Inject
     public RepositoryFacade(CassetteRepository cassetteRepository, RecordingRepository recordingRepository) {
         this.cassetteRepository = cassetteRepository;
         this.recordingRepository = recordingRepository;
     }
 
+    //endregion Constructor
 
     //region Cassette related Methods
 

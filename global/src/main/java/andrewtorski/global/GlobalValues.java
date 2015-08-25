@@ -1,6 +1,7 @@
 package andrewtorski.global;
 
 import android.content.Context;
+import android.os.Environment;
 
 /**
  * Provides various different values - constant and variables - which would be otherwise
@@ -44,9 +45,35 @@ public final class GlobalValues {
         context = providedContext;
     }
 
-
     public static Context getContext() {
         return context;
+    }
+
+    public static String getExternalStoragePath() {
+        return Environment.getExternalStorageState();
+    }
+
+    /**
+     * Checks if external storage is available for read and write
+     */
+    public static boolean isExternalStorageWritable() {
+        String state = Environment.getExternalStorageState();
+        if (Environment.MEDIA_MOUNTED.equals(state)) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Checks if external storage is available to at least read
+     */
+    public static boolean isExternalStorageReadable() {
+        String state = Environment.getExternalStorageState();
+        if (Environment.MEDIA_MOUNTED.equals(state) ||
+                Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
+            return true;
+        }
+        return false;
     }
 
 }
