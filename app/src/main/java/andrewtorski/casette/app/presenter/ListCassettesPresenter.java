@@ -35,7 +35,7 @@ public class ListCassettesPresenter implements Presenter {
     //region Constructor
     @Inject
     public ListCassettesPresenter(@Named("listCassettes") ListCassettesUseCase useCase) {
-        Log.d(TAG, "Constructed and injeced usecase.");
+        Log.d(TAG, "Constructed and injected usecase.");
         this.useCase = useCase;
     }
 

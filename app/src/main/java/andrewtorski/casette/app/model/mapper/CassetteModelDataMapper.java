@@ -5,12 +5,13 @@ import java.util.LinkedList;
 import java.util.List;
 
 import andrewtorski.casette.app.model.CassetteModel;
+import andrewtorski.casette.app.model.RecordingModel;
 import andrewtorski.cassette.domain.entity.Cassette;
+import andrewtorski.cassette.domain.entity.Recording;
 
-/**
- * Created by andrew on 20/08/15.
- */
 public class CassetteModelDataMapper {
+
+    private RecordingModelDataMapper recordingModelDataMapper = new RecordingModelDataMapper();
 
     public Cassette transform(CassetteModel cassetteModel) {
         if (cassetteModel == null) {
@@ -28,7 +29,7 @@ public class CassetteModelDataMapper {
     public List<Cassette> transformModels(Collection<CassetteModel> cassetteModelCollection) {
         List<Cassette> cassetteList = new LinkedList<>();
 
-        if (cassetteList == null) {
+        if (cassetteModelCollection == null) {
             return cassetteList;
         }
 
@@ -47,15 +48,24 @@ public class CassetteModelDataMapper {
         if (cassette == null) {
             return null;
         }
-        return new CassetteModel(cassette.getId(), cassette.getTitle(), cassette.getDescription(),
+
+        CassetteModel cassetteModel = new CassetteModel(cassette.getId(), cassette.getTitle(), cassette.getDescription(),
                 cassette.getDateTimeOfCreation(), cassette.getLength(), cassette.isCompiled(), cassette.getCompiledFilePath(),
                 cassette.getDateTimeOfCompilation(), cassette.getNumberOfRecordings());
+
+        if (cassette.getRecordings() != null) {
+            List<Recording> recordingList = cassette.getRecordings();
+            List<RecordingModel> recordingModelList = recordingModelDataMapper.transform(recordingList);
+            cassetteModel.setRecordingModelList(recordingModelList);
+        }
+
+        return cassetteModel;
     }
 
     public List<CassetteModel> transformCassettes(Collection<Cassette> cassetteCollection) {
         List<CassetteModel> cassetteModelList = new LinkedList<>();
 
-        if (cassetteModelList == null) {
+        if (cassetteCollection == null) {
             return cassetteModelList;
         }
 

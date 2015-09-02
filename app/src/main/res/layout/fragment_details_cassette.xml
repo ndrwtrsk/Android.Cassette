@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/cassette_details_grid_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_margin="@dimen/activity_horizontal_margin">
+
+    <TextView
+        android:id="@+id/cassette_details_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black_text"
+        android:textSize="36dp"
+        android:text="Title" />
+
+    <TextView
+        android:id="@+id/cassette_details_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black_text"
+        android:textSize="20dp"
+        android:text="Description" />
+
+    <TextView
+        android:layout_marginTop="5sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Recorded"
+        android:textSize="14sp"
+        android:textColor="@color/black_secondary_text" />
+
+    <TextView
+        android:id="@+id/cassette_details_date_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black_text"
+        android:text="15:15 17th February 2015" />
+
+    <TextView
+        android:layout_marginTop="5sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Length"
+        android:textSize="14sp"
+        android:textColor="@color/black_secondary_text" />
+
+    <TextView
+        android:id="@+id/cassette_details_length"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black_text"
+        android:text="123 seconds" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/cassette_details_recordings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

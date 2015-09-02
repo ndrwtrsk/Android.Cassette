@@ -4,9 +4,7 @@ import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.GradientDrawable;
-import android.graphics.drawable.LayerDrawable;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.Bundle;
@@ -34,7 +32,6 @@ public class RecordingActivity extends Activity {
     private Animation RECORD_BUTTON_SCALE_DOWN;
 
 
-
     //  Audio capture
 
     private static final String LOG_TAG = "AudioRecordTest";
@@ -43,14 +40,14 @@ public class RecordingActivity extends Activity {
     private Button mRecordButton = null;
     private MediaRecorder mRecorder = null;
 
-    private Button   mPlayButton = null;
-    private MediaPlayer   mPlayer = null;
+    private Button mPlayButton = null;
+    private MediaPlayer mPlayer = null;
 
 
     //  end of Audio capture
 
 
-    public RecordingActivity(){
+    public RecordingActivity() {
         mFileName = Environment.getExternalStorageDirectory().getAbsolutePath();
         mFileName += "/casette.3gp";
     }
@@ -74,7 +71,7 @@ public class RecordingActivity extends Activity {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     recordButtonOnDown(v);
                     return false;
-                } else if(event.getAction() == MotionEvent.ACTION_UP) {
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
                     recordButtonOnUp(v);
                     return false;
                 }
@@ -108,8 +105,7 @@ public class RecordingActivity extends Activity {
     }
 
 
-
-    public void recordButtonOnDown(final View button){
+    public void recordButtonOnDown(final View button) {
         button.startAnimation(RECORD_BUTTON_SCALE_UP);
         final RelativeLayout background = (RelativeLayout) findViewById(R.id.background);
         animateViewBackgroundColor(background, backgroundColorBeforeTap, backgroundColorAfterTap);
@@ -120,7 +116,7 @@ public class RecordingActivity extends Activity {
         bgDrawable.setColor(Color.WHITE);
     }
 
-    public void recordButtonOnUp(final View button){
+    public void recordButtonOnUp(final View button) {
         button.startAnimation(RECORD_BUTTON_SCALE_DOWN);
         final RelativeLayout background = (RelativeLayout) findViewById(R.id.background);
         animateViewBackgroundColor(background, backgroundColorAfterTap, backgroundColorBeforeTap);
@@ -131,7 +127,7 @@ public class RecordingActivity extends Activity {
         bgDrawable.setColor(getResources().getColor(R.color.primary));
     }
 
-    private void animateViewBackgroundColor(final View view, int fromColor, int toColor){
+    private void animateViewBackgroundColor(final View view, int fromColor, int toColor) {
 
         ValueAnimator animator = ValueAnimator.ofArgb(fromColor, toColor);
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {

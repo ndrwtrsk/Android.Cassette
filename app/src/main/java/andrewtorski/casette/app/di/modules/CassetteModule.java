@@ -3,6 +3,7 @@ package andrewtorski.casette.app.di.modules;
 import javax.inject.Named;
 
 import andrewtorski.casette.app.di.PerActivity;
+import andrewtorski.cassette.domain.usecase.CassetteDetailsUseCase;
 import andrewtorski.cassette.domain.usecase.ListCassettesUseCase;
 import dagger.Module;
 import dagger.Provides;
@@ -13,28 +14,27 @@ import dagger.Provides;
 @Module
 public class CassetteModule {
 
-    private int cassetteId = -1;
+    private long cassetteId = -1;
 
     public CassetteModule() {
     }
 
-    public CassetteModule(int userId) {
-        this.cassetteId = userId;
+    public CassetteModule(long cassetteId) {
+        this.cassetteId = cassetteId;
     }
 
     @Provides
     @PerActivity
     @Named("listCassettes")
-    ListCassettesUseCase provideGetUserListUseCase(ListCassettesUseCase useCase) {
+    ListCassettesUseCase provideListCassetteUseCase(ListCassettesUseCase useCase) {
         return useCase;
     }
 
-    /*@Provides
+    @Provides
     @PerActivity
-    @Named("detailsCassette") UseCase provideGetUserDetailsUseCase(
-            UserRepository userRepository, ThreadExecutor threadExecutor,
-            PostExecutionThread postExecutionThread) {
-        return new GetUserDetails(cassetteId, userRepository, threadExecutor, postExecutionThread);
-    }*/
+    @Named("cassetteDetails")
+    CassetteDetailsUseCase provideCassetteDetailsUseCase(CassetteDetailsUseCase useCase) {
+        return useCase;
+    }
 
 }

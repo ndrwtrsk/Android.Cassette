@@ -3,6 +3,7 @@ package andrewtorski.casette.app.di.components;
 import andrewtorski.casette.app.di.PerActivity;
 import andrewtorski.casette.app.di.modules.ActivityModule;
 import andrewtorski.casette.app.di.modules.CassetteModule;
+import andrewtorski.casette.app.view.fragment.CassetteDetailsFragment;
 import andrewtorski.casette.app.view.fragment.ListCassettesFragment;
 import dagger.Component;
 
@@ -13,5 +14,7 @@ import dagger.Component;
 @PerActivity
 @Component(dependencies = ApplicationComponent.class, modules = {ActivityModule.class, CassetteModule.class})
 public interface CassetteComponent extends ActivityComponent {
-    void inject(ListCassettesFragment userListFragment);
+    void inject(ListCassettesFragment listCassettesFragment);
+
+    void inject(CassetteDetailsFragment cassetteDetailsFragment);
 }

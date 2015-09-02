@@ -1,6 +1,7 @@
 package andrewtorski.casette.app.model;
 
 import java.util.Date;
+import java.util.List;
 
 public class CassetteModel {
 
@@ -54,6 +55,11 @@ public class CassetteModel {
      * Number of the Recordings on this Cassette.
      */
     private int numberOfRecordings;
+
+    /**
+     * Collection of associated Recordings.
+     */
+    private List<RecordingModel> recordingModelList;
 
     //endregion PrivateFields
 
@@ -145,6 +151,14 @@ public class CassetteModel {
 
     public void setNumberOfRecordings(int numberOfRecordings) {
         this.numberOfRecordings = numberOfRecordings;
+    }
+
+    public List<RecordingModel> getRecordingModelList() {
+        return recordingModelList;
+    }
+
+    public void setRecordingModelList(List<RecordingModel> recordingModelList) {
+        this.recordingModelList = recordingModelList;
     }
 
 

@@ -27,6 +27,10 @@ import butterknife.ButterKnife;
 
 public class ListCassettesFragment extends BaseFragment implements ListCassettesView {
 
+    public interface CassetteListListener {
+        void onCassetteClicked(final CassetteModel cassetteModel);
+    }
+
     //region Private fields
 
     private final String TAG = "LI_CAS_FRAG";
@@ -42,7 +46,17 @@ public class ListCassettesFragment extends BaseFragment implements ListCassettes
 
     private CassettesAdapter cassettesAdapter;
     private CassetteLayoutManager cassetteLayoutManager;
-    private ListCassettesView listCassettesView;
+
+    private CassetteListListener cassetteListListener;
+
+    private CassettesAdapter.OnItemClickListener itemClickListener = new CassettesAdapter.OnItemClickListener() {
+        @Override
+        public void onCassetteItemClicked(CassetteModel cassetteModel) {
+            if (ListCassettesFragment.this.listCassettesPresenter != null && cassetteModel != null) {
+                ListCassettesFragment.this.listCassettesPresenter.onCassetteClicked(cassetteModel);
+            }
+        }
+    };
 
     //endregion Private fields
 
@@ -73,7 +87,7 @@ public class ListCassettesFragment extends BaseFragment implements ListCassettes
         this.rv_cassettes.setLayoutManager(cassetteLayoutManager);
 
         this.cassettesAdapter = new CassettesAdapter(new ArrayList<CassetteModel>());
-        //this.usersAdapter.setOnItemClickListener(onItemClickListener);
+        this.cassettesAdapter.setOnItemClickListener(this.itemClickListener);
         this.rv_cassettes.setAdapter(cassettesAdapter);
         Log.d(TAG, "UI is set up.");
     }
@@ -86,24 +100,6 @@ public class ListCassettesFragment extends BaseFragment implements ListCassettes
 
     //region Fragment overridden Methods
 
-    /**
-     * Called to have the fragment instantiate its user interface view.
-     * This is optional, and non-graphical fragments can return null (which
-     * is the default implementation).  This will be called between
-     * {@link #onCreate(android.os.Bundle)} and {@link #onActivityCreated(android.os.Bundle)}.
-     * <p/>
-     * <p>If you return a View from here, you will later be called in
-     * {@link #onDestroyView} when the view is being released.
-     *
-     * @param inflater           The LayoutInflater object that can be used to inflate
-     *                           any views in the fragment,
-     * @param container          If non-null, this is the parent view that the fragment's
-     *                           UI should be attached to.  The fragment should not add the view itself,
-     *                           but this can be used to generate the LayoutParams of the view.
-     * @param savedInstanceState If non-null, this fragment is being re-constructed
-     *                           from a previous saved state as given here.
-     * @return Return the View for the fragment's UI, or null.
-     */
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -116,33 +112,16 @@ public class ListCassettesFragment extends BaseFragment implements ListCassettes
         return fragmentView;
     }
 
-    /**
-     * Called when a fragment is first attached to its activity.
-     * {@link #onCreate(android.os.Bundle)} will be called after this.
-     *
-     * @param activity
-     */
     @Override
     public void onAttach(Activity activity) {
         Log.d(TAG, "Attaching to activity...");
         super.onAttach(activity);
-        assert activity != null;
+        if (activity instanceof CassetteListListener) {
+            this.cassetteListListener = (CassetteListListener) activity;
+        }
         Log.d(TAG, "Attached to activity.");
     }
 
-    /**
-     * Called when the fragment's activity has been created and this
-     * fragment's view hierarchy instantiated.  It can be used to do final
-     * initialization once these pieces are in place, such as retrieving
-     * views or restoring state.  It is also useful for fragments that use
-     * {@link #setRetainInstance(boolean)} to retain their instance,
-     * as this callback tells the fragment when it is fully associated with
-     * the new activity instance.  This is called after {@link #onCreateView}
-     * and before {@link #onViewStateRestored(android.os.Bundle)}.
-     *
-     * @param savedInstanceState If the fragment is being re-created from
-     *                           a previous saved state, this is the state.
-     */
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -150,47 +129,24 @@ public class ListCassettesFragment extends BaseFragment implements ListCassettes
         this.loadCassetteList();
     }
 
-    /**
-     * Called when the view previously created by {@link #onCreateView} has
-     * been detached from the fragment.  The next time the fragment needs
-     * to be displayed, a new view will be created.  This is called
-     * after {@link #onStop()} and before {@link #onDestroy()}.  It is called
-     * <em>regardless</em> of whether {@link #onCreateView} returned a
-     * non-null view.  Internally it is called after the view's state has
-     * been saved but before it has been removed from its parent.
-     */
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        ButterKnife.unbind(this);
     }
 
-    /**
-     * Called when the fragment is no longer in use.  This is called
-     * after {@link #onStop()} and before {@link #onDetach()}.
-     */
     @Override
     public void onDestroy() {
         super.onDestroy();
         this.listCassettesPresenter.destroy();
     }
 
-    /**
-     * Called when the Fragment is no longer resumed.  This is generally
-     * tied to {@link android.app.Activity#onPause() Activity.onPause} of the containing
-     * Activity's lifecycle.
-     */
     @Override
     public void onPause() {
         super.onPause();
         this.listCassettesPresenter.pause();
     }
 
-    /**
-     * Called when the fragment is visible to the user and actively running.
-     * This is generally
-     * tied to {@link android.app.Activity#onResume() Activity.onResume} of the containing
-     * Activity's lifecycle.
-     */
     @Override
     public void onResume() {
         super.onResume();
@@ -213,7 +169,10 @@ public class ListCassettesFragment extends BaseFragment implements ListCassettes
 
     @Override
     public void viewCassette(CassetteModel cassetteModel) {
-        //empty
+        Log.d(TAG, "Cassette was clicked.");
+        if (this.cassetteListListener != null) {
+            this.cassetteListListener.onCassetteClicked(cassetteModel);
+        }
     }
 
     /**

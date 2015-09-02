@@ -16,7 +16,7 @@ import andrewtorski.casette.app.model.CassetteModel;
 public class CassettesAdapter extends RecyclerView.Adapter<CassettesAdapter.CassetteViewHolder> {
 
     public interface OnItemClickListener {
-        void onUserItemClicked(CassetteModel cassetteModel);
+        void onCassetteItemClicked(CassetteModel cassetteModel);
     }
 
     //region Private fields
@@ -47,12 +47,22 @@ public class CassettesAdapter extends RecyclerView.Adapter<CassettesAdapter.Cass
 
     @Override
     public void onBindViewHolder(CassetteViewHolder cassetteViewHolder, int i) {
-        CassetteModel cassette = cassetteModelList.get(i);
+        final CassetteModel cassette = cassetteModelList.get(i);
         String title = cassette.getTitle(),
                 description = cassette.getDescription();
 
         cassetteViewHolder.textViewTitle.setText(title);
         cassetteViewHolder.textViewDescription.setText(description);
+
+        //  below wires the cassette model object with a click listener
+        cassetteViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (CassettesAdapter.this.onItemClickListener != null) {
+                    CassettesAdapter.this.onItemClickListener.onCassetteItemClicked(cassette);
+                }
+            }
+        });
     }
 
     @Override

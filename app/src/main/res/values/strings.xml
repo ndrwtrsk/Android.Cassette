@@ -1,8 +1,10 @@
 <resources>
     <string name="app_name">Cassette</string>
 
-    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_list_cassettes">ListCassettes</string>
+    <string name="title_activity_list_cassettes">Your Cassettes</string>
     <string name="exception_message_generic">Generic error.</string>
+    <string name="title_activity_cassette_detail">Details</string>
+
+    <string name="hello_world">Hello world!</string>
 </resources>

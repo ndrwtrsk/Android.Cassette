@@ -9,9 +9,6 @@ import javax.inject.Inject;
 import andrewtorski.cassette.domain.entity.Cassette;
 import andrewtorski.cassette.domain.repository.CassetteRepository;
 
-/**
- * Created by andrew on 24/08/15.
- */
 public class CassetteTestRepository implements CassetteRepository {
     ArrayList<Cassette> cassetteList = new ArrayList<>();
 
@@ -40,7 +37,7 @@ public class CassetteTestRepository implements CassetteRepository {
      */
     @Override
     public Cassette get(long cassetteId) {
-        Cassette foundCassette;
+        Cassette foundCassette = null;
 
         for (int i = 0; i < cassetteList.size(); i++) {
             foundCassette = cassetteList.get(i);
@@ -49,7 +46,7 @@ public class CassetteTestRepository implements CassetteRepository {
             }
         }
 
-        return null;
+        return foundCassette;
     }
 
     /**

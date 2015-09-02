@@ -75,7 +75,7 @@ public class RepositoryFacade {
     public Cassette get(long cassetteId, boolean withRecordingsInitialized) {
         Cassette cassette = cassetteRepository.get(cassetteId);
 
-        if (withRecordingsInitialized) {
+        if (withRecordingsInitialized && cassette != null) {
             populateRecordings(cassette);
         }
 

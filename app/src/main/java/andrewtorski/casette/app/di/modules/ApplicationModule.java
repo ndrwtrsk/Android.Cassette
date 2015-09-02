@@ -7,8 +7,10 @@ import javax.inject.Singleton;
 import andrewtorski.casette.app.AndroidApplication;
 import andrewtorski.casette.app.navigation.Navigator;
 import andrewtorski.cassette.data.repository.test.CassetteTestRepository;
+import andrewtorski.cassette.data.repository.test.RecordingTestRepository;
 import andrewtorski.cassette.domain.RepositoryFacade;
 import andrewtorski.cassette.domain.repository.CassetteRepository;
+import andrewtorski.cassette.domain.repository.RecordingRepository;
 import dagger.Module;
 import dagger.Provides;
 
@@ -41,9 +43,13 @@ public class ApplicationModule {
         return cassetteTestRepository;
     }
 
+    RecordingRepository provideTestRecordingRepository(RecordingTestRepository recordingTestRepository) {
+        return recordingTestRepository;
+    }
+
     @Provides
     @Singleton
     RepositoryFacade provideRepositoryFacade() {
-        return new RepositoryFacade(new CassetteTestRepository(), null);
+        return new RepositoryFacade(new CassetteTestRepository(), new RecordingTestRepository());
     }
 }

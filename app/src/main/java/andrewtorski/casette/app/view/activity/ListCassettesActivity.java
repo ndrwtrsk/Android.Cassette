@@ -1,6 +1,9 @@
 package andrewtorski.casette.app.view.activity;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
@@ -9,14 +12,38 @@ import andrewtorski.casette.R;
 import andrewtorski.casette.app.di.HasComponent;
 import andrewtorski.casette.app.di.components.CassetteComponent;
 import andrewtorski.casette.app.di.components.DaggerCassetteComponent;
+import andrewtorski.casette.app.model.CassetteModel;
+import andrewtorski.casette.app.view.fragment.ListCassettesFragment;
 
-public class ListCassettesActivity extends BaseActivity implements HasComponent<CassetteComponent> {
+public class ListCassettesActivity extends BaseActivity implements HasComponent<CassetteComponent>,
+        ListCassettesFragment.CassetteListListener {
 
     //region Private fields
+
+    private static final String TAG = "LI_CAS_ACT";
 
     private CassetteComponent cassetteComponent;
 
     //endregion Private fields
+
+    //region Methods
+
+    private void initializeInjector() {
+        this.cassetteComponent = DaggerCassetteComponent.builder()
+                .applicationComponent(getApplicationComponent())
+                .activityModule(getActivityModule())
+                .build();
+    }
+
+    //endregion Methods
+
+    //region Static Methods
+
+    public static Intent getCallingIntent(Context context) {
+        return new Intent(context, ListCassettesActivity.class);
+    }
+
+    //endregion Static Methods
 
     //region Activity overridden methods
 
@@ -28,14 +55,6 @@ public class ListCassettesActivity extends BaseActivity implements HasComponent<
 
         this.initializeInjector();
     }
-
-    private void initializeInjector() {
-        this.cassetteComponent = DaggerCassetteComponent.builder()
-                .applicationComponent(getApplicationComponent())
-                .activityModule(getActivityModule())
-                .build();
-    }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -69,4 +88,15 @@ public class ListCassettesActivity extends BaseActivity implements HasComponent<
     }
 
     //endregion HasComponent<CassetteComponent> implemented methods
+
+    //region ListCassettesFragment.CassetteListListener Methods
+
+    @Override
+    public void onCassetteClicked(CassetteModel cassetteModel) {
+        Log.d(TAG, "Cassette clicked, navigating.");
+        this.navigator.navigateToCassetteDetails(this, cassetteModel.getId());
+    }
+
+    //endregion ListCassettesFragment.CassetteListListener Methods
+
 }
